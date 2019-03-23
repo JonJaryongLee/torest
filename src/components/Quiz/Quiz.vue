@@ -3,11 +3,11 @@
         <div class="quizInfo" v-if="infoShow">
             <p class="display-3">퀴즈를 시작합니다.</p>
             <p class="body-2">총 10문제가 주어지며, 정답을 빨리 맞출수록 고득점을 받습니다.</p>
-            <v-btn v-on:click="runQuiz">Start</v-btn>
+            <v-btn color="success" v-on:click="runQuiz">Start</v-btn>
         </div>
         <div class="quizTemplate" v-if="quizShow">
             <v-progress-circular class="timer" :rotate="-90" :size="100" :width="15" :value="timerValue" color="green accent-2">
-                {{ timerValue }}
+                {{ timerValue/10 }}
             </v-progress-circular>
             <div class="questionAndAnswer">
                 <div class="questionBox">
@@ -29,8 +29,9 @@
                 </v-alert>
             </div>
         </div>
-        <div class="resultPage" v-if="resultShow">
-            당신의 점수는 {{totalScore}} 입니다.
+        <div class="resultPage display-1" v-if="resultShow">
+            당신의 예상점수는 {{totalScore}}점입니다.
+            <v-btn class="retryBtn" color="success" v-on:click="runQuiz">다시 하기</v-btn>
         </div>
     </div>
 </template>
@@ -57,24 +58,22 @@ export default {
             resultShow: false
         }
     },
-    beforeDestroy() {
-        clearInterval(this.interval)
-    },
-    mounted() {
-        this.interval = setInterval(() => {
-            if (this.timerValue === 0) {
-                return (this.timerValue = 100)
-            }
-            this.timerValue -= 10
-        }, 1000)
-    },
     methods: {
         runQuiz() {
             this.infoShow = false;
             this.quizShow = true;
             this.loadQuiz();
         },
+        timerReset() {
+            this.timerValue = 100;
+            this.interval = setInterval(() => {
+                this.timerValue -= 10;
+                if (this.timerValue == 0)
+                    clearInterval(this.interval);
+            }, 1000);
+        },
         loadQuiz() {
+            this.timerReset();
             axios.get('/me/quiz/set1')
                 .then(response => {
                     this.questionFront = response.data[this.quizCounter].questionFront;
@@ -87,13 +86,12 @@ export default {
         answerCheck(userChoicedAnswer) {
             if (userChoicedAnswer == this.answerNum) {
                 this.rightAnswerFlag = true;
-                this.done = true;
-                this.goNextOrShowResult();
             } else {
                 this.wrongAnswerFlag = true;
-                this.done = true;
-                this.goNextOrShowResult();
             }
+            this.done = true;
+            this.goNextOrShowResult();
+            clearInterval(this.interval);
         },
         toNext() {
             this.done = false,
@@ -103,10 +101,10 @@ export default {
             this.loadQuiz();
         },
         goNextOrShowResult() {
-            if (this.allQuestionsNumber != (this.quizCounter)) {
+            if (this.allQuestionsNumber != (this.quizCounter + 1)) {
                 setTimeout(() => this.toNext(), 1000);
             } else {
-                this.showResultPage();
+                setTimeout(() => this.showResultPage(), 1500);
             }
         },
         showResultPage() {
@@ -133,6 +131,7 @@ export default {
     text-align: center;
     position: relative;
     top: 200px;
+    color:#00C853;
 }
 
 .questionAndAnswer {
@@ -149,5 +148,19 @@ export default {
     position: relative;
     top: 50px;
     left: 1080px;
+}
+
+.resultPage {
+    position: relative;
+    top: 260px;
+    text-align: center;
+    color: #00C853;
+}
+
+.retryBtn {
+    display: block;
+    position: relative;
+    top: 30px;
+    left: 550px;
 }
 </style>
