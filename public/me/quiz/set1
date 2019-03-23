@@ -1,0 +1,23 @@
+[
+    {
+        "questionFront": "If she had earned a degree in law, she ",
+        "questionEnd": " the position.",
+        "answerNum": 1,
+        "choice0": "had gotten",
+        "choice1": "would have gotten"
+    },
+    {
+        "questionFront": "",
+        "questionEnd": " it not been for her support, we would not have finished the report.",
+        "answerNum":0,
+        "choice0":"Had",
+        "choice1":"Could"
+    },
+    {
+        "questionFront": "",
+        "questionEnd": " Ms. Fletcher will give the presentation is not certain.",
+        "answerNum":0,
+        "choice0":"Whether",
+        "choice1":"Because"
+    }
+]
