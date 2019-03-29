@@ -17,6 +17,14 @@
                     <v-list-tile-title>나의 숲</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
+            <v-list-tile @click="words">
+                <v-list-tile-action>
+                    <v-icon>assignment</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                    <v-list-tile-title>단어 암기</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
             <v-list-tile @click="quiz">
                 <v-list-tile-action>
                     <v-icon>class</v-icon>
@@ -84,6 +92,9 @@
         <myForest
             v-if="myForestShow"
         ></myForest>
+        <!-- 단어 암기 -->
+        <words
+            v-if="wordsShow"></words>
         <!-- 토익문제풀기 -->
         <quiz
             v-if="quizShow"
@@ -111,10 +122,12 @@
   import quiz from './Quiz/Quiz.vue'
   import myForest from './MyForest/MyForest.vue'
   import presentation from './PPT/PPT.vue'
+  import words from './Words/Words.vue'
   export default {
     data: () => ({
       userName: "Sophie",
       myForestShow:false,
+      wordsShow:false,
       quizShow:false,
       chartShow: false,
       logoutShow: false,
@@ -128,7 +141,8 @@
       'chart':chart,
       'quiz':quiz,
       'myForest':myForest,
-      'presentation':presentation
+      'presentation':presentation,
+      'words':words
     },
     props: {
       source: String
@@ -136,6 +150,7 @@
     methods:{
         shutdown(){
             this.myForestShow=false;
+            this.wordsShow=false;
             this.quizShow=false;
             this.chartShow=false;
             this.presentationShow=false;
@@ -147,6 +162,11 @@
             this.shutdown();
             this.myForestShow = true;
             this.selectedMode = "나의 숲";
+        },
+        words(){
+            this.shutdown();
+            this.wordsShow = true;
+            this.selectedMode = "단어 암기"
         },
         quiz(){
             this.shutdown();

@@ -15,26 +15,38 @@
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn dark color="green accent-2" v-on:click="loginTest">Login</v-btn>
+                            <v-btn dark color="green accent-2" v-on:click="loginTest">Log in</v-btn>
+                            <v-btn dark color="green accent-3" v-on:click="showSignUpModal">Sign up</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-flex>
+                <signUpModal v-if="signUpShow" v-bind:signUpModalOpen="signUpShow" v-on:closeSignUpModal="closeSignUpModal"></signUpModal>
             </v-layout>
         </v-container>
     </v-content>
 </template>
-
 <script>
-  export default {
-    data:() => ({
-      loginSuccess:false
+import signUpModal from './SignUpModal.vue'
+export default {
+    components: {
+        'signUpModal': signUpModal
+    },
+    data: () => ({
+        loginSuccess: false,
+        signUpShow: false
     }),
-    methods:{
-      loginTest(){
-        this.loginSuccess=true;
-        if(this.loginSuccess==true)
-          this.$emit('loginSuccess');
-      }
+    methods: {
+        loginTest() {
+            this.loginSuccess = true;
+            if (this.loginSuccess == true)
+                this.$emit('loginSuccess');
+        },
+        closeSignUpModal() {
+            this.signUpShow = false;
+        },
+        showSignUpModal() {
+            this.signUpShow = true;
+        }
     }
-  }
+}
 </script>

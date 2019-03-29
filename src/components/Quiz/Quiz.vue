@@ -74,7 +74,7 @@ export default {
         },
         loadQuiz() {
             this.timerReset();
-            axios.get('/me/quiz/set1')
+            axios.get('/me/quiz/set1') // 추후 수정 
                 .then(response => {
                     this.questionFront = response.data[this.quizCounter].questionFront;
                     this.questionEnd = response.data[this.quizCounter].questionEnd;
