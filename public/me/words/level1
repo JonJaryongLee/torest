@@ -1,0 +1,72 @@
+[
+	{
+    	"wordNum": "w00000",
+    	"wordName": "capture",
+    	"wordPrononciation": "[ˈkæptʃə(r)]",
+    	"wordMeaning": "포획하다, 사로잡다, 생포, 포획, 억류",
+    	"wordImg":"/me/words/w00000.jpg"
+	},
+	{
+    	"wordNum": "w00001",
+    	"wordName": "capable",
+    	"wordPrononciation": "[ˈkeɪpəbl]",
+    	"wordMeaning": "~할 수 있는, 유능한",
+    	"wordImg":"/me/words/w00001.jpg"
+	},
+	{
+    	"wordNum": "w00002",
+    	"wordName": "anticipate",
+    	"wordPrononciation": "[ænˈtɪsɪpeɪt]",
+    	"wordMeaning": "예상하다, 예측하다",
+    	"wordImg":"/me/words/w00002.jpg"
+	},
+	{
+    	"wordNum": "w00003",
+    	"wordName": "participate",
+    	"wordPrononciation": "[pɑːrˈtɪsɪpeɪt]",
+    	"wordMeaning": "참여하다, 참가하다(=join)",
+    	"wordImg":""
+	},
+	{
+    	"wordNum": "w00004",
+    	"wordName": "conceive",
+    	"wordPrononciation": "[kənˈsiːv]",
+    	"wordMeaning": "(생각을)품다, 생각하다, 임신하다",
+    	"wordImg":""
+	},
+	{
+    	"wordNum": "w00005",
+    	"wordName": "deceive",
+    	"wordPrononciation": "[dɪˈsiːv]",
+    	"wordMeaning": "속이다, 기만하다, 사기치다",
+    	"wordImg":""
+	},
+	{
+    	"wordNum": "w00006",
+    	"wordName": "perceive",
+    	"wordPrononciation": "[pərˈsiːv]",
+    	"wordMeaning": "인식하다, 감지하다",
+    	"wordImg":""
+	},
+	{
+    	"wordNum":"w00007",
+    	"wordName": "receive",
+    	"wordPrononciation": "[rɪˈsiːv]",
+    	"wordMeaning": "받다, 받아들이다",
+    	"wordImg":""
+	},
+	{
+    	"wordNum": "w00008",
+    	"wordName": "accept",
+    	"wordPrononciation": "[əkˈsept]",
+    	"wordMeaning": "수락하다, 받아들이다",
+    	"wordImg":""
+	},
+	{
+    	"wordNum": "w00009",
+    	"wordName": "contraception",
+    	"wordPrononciation": "[ˌkɑːntrəˈsepʃn]",
+    	"wordMeaning": "피임",
+    	"wordImg":""
+	}
+]

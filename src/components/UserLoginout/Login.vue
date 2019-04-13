@@ -20,7 +20,12 @@
                         </v-card-actions>
                     </v-card>
                 </v-flex>
-                <signUpModal v-if="signUpShow" v-bind:signUpModalOpen="signUpShow" v-on:closeSignUpModal="closeSignUpModal"></signUpModal>
+                <signUpModal 
+                    v-if="signUpShow" 
+                    v-bind:signUpModalOpen="signUpShow" 
+                    v-on:closeSignUpModal="closeSignUpModal"
+                    v-on:succeedSignUp="succeedSignUp"
+                ></signUpModal>
             </v-layout>
         </v-container>
     </v-content>
@@ -46,6 +51,9 @@ export default {
         },
         showSignUpModal() {
             this.signUpShow = true;
+        },
+        succeedSignUp(){
+            this.$emit('loginSuccess');
         }
     }
 }

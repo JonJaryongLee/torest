@@ -47,8 +47,8 @@ export default {
         signUpRequest() {
             if (this.valid == true) {
                 //사용자 회원가입 서버에 요청
-                //최종적으로 창을 종료
-                this.$emit('closeSignUpModal');
+                //이후 접속 성공
+                this.$emit('succeedSignUp');
             }
         }
     }
