@@ -13,37 +13,11 @@
         </div>
         <div class="wordTest" v-if="wordTestShow">
             <div class="wordTestContainer">
-                <div class="itemContainer">
-                    {{wordMeaningList[0]}} <input class="userAnswer" v-model="userAnswer0" type="text">
+                <div class="itemContainer" v-for="(wordMeaningFromList,answerNum) in wordMeaningList" :key="wordMeaningFromList">
+                    {{wordMeaningFromList}} <input class="userAnswer" v-model="userAnswer[answerNum]" type="text" v-bind:disabled="inputDisableFlag">
                 </div>
-                <div class="itemContainer">
-                    {{wordMeaningList[1]}} <input class="userAnswer" v-model="userAnswer1" type="text">
-                </div>
-                <div class="itemContainer">
-                    {{wordMeaningList[2]}} <input class="userAnswer" v-model="userAnswer2" type="text">
-                </div>
-                <div class="itemContainer">
-                    {{wordMeaningList[3]}} <input class="userAnswer" v-model="userAnswer3" type="text">
-                </div>
-                <div class="itemContainer">
-                    {{wordMeaningList[4]}} <input class="userAnswer" v-model="userAnswer4" type="text">
-                </div>
-                <div class="itemContainer">
-                    {{wordMeaningList[5]}} <input class="userAnswer" v-model="userAnswer5" type="text">
-                </div>
-                <div class="itemContainer">
-                    {{wordMeaningList[6]}} <input class="userAnswer" v-model="userAnswer6" type="text">
-                </div>
-                <div class="itemContainer">
-                    {{wordMeaningList[7]}} <input class="userAnswer" v-model="userAnswer7" type="text">
-                </div>
-                <div class="itemContainer">
-                    {{wordMeaningList[8]}} <input class="userAnswer" v-model="userAnswer8" type="text">
-                </div>
-                <div class="itemContainer">
-                    {{wordMeaningList[9]}} <input class="userAnswer" v-model="userAnswer9" type="text">
-                </div>
-                <button v-on:click="wordSubmit">submit</button>
+                <button v-if="submitBtnShow" v-on:click="wordSubmit">submit</button>
+                <button v-if="nextBtnShow" v-on:click="keepStudy">계속 단어 외우기</button>
             </div>
         </div>
     </div>
@@ -55,7 +29,6 @@ export default {
         wordRememberingIntroShow: true,
         wordRememberingShow: false,
         wordTestShow: false,
-        wordNum: "",
         wordName: "",
         wordPrononciation: "",
         wordMeaning: "",
@@ -63,16 +36,11 @@ export default {
         wordCounter: 0,
         wordNameList: [],
         wordMeaningList: [],
-        userAnswer0: "",
-        userAnswer1: "",
-        userAnswer2: "",
-        userAnswer3: "",
-        userAnswer4: "",
-        userAnswer5: "",
-        userAnswer6: "",
-        userAnswer7: "",
-        userAnswer8: "",
-        userAnswer9: "",
+        userAnswer: [],
+        inputDisableFlag: false,
+        record: 0,
+        submitBtnShow: true,
+        nextBtnShow: false
     }),
     methods: {
         wordRememberingStart() {
@@ -83,7 +51,6 @@ export default {
         loadWord() {
             axios.get('/me/words/level1') // 추후 수정
                 .then(response => {
-                    this.wordNum = response.data[this.wordCounter].wordNum;
                     this.wordName = response.data[this.wordCounter].wordName;
                     this.wordPrononciation = response.data[this.wordCounter].wordPrononciation;
                     this.wordMeaning = response.data[this.wordCounter].wordMeaning;
@@ -114,7 +81,31 @@ export default {
             this.loadAllWords();
         },
         wordSubmit() {
-            //작성해야함
+            for (let i = 0; i < 10; i++) {
+                if (this.userAnswer[i] != this.wordNameList[i])
+                    this.userAnswer[i] = this.wordNameList[i];
+                else
+                    this.record++; // 하나 맞출때마다 점수가 올라갑니다.
+            }
+            this.inputDisableFlag = true;
+            this.submitBtnShow = false;
+            this.nextBtnShow = true;
+            //this.record를 상위컴포넌트로 보내는 코드를 추가해야 합니다!!
+        },
+        keepStudy() {
+            this.resetAllData();
+            this.wordTestShow = false;
+            this.wordRememberingIntroShow = true;
+        },
+        resetAllData() {
+            this.wordCounter = 0;
+            this.wordNameList = [];
+            this.wordMeaningList = [];
+            this.userAnswer = [];
+            this.record = 0;
+            this.submitBtnShow = true;
+            this.nextBtnShow= false;
+            this.inputDisableFlag = false;
         }
     }
 }
