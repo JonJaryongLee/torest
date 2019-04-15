@@ -12,9 +12,15 @@
             <button v-on:click="nextWord">다음</button>
         </div>
         <div class="wordTest" v-if="wordTestShow">
+            <div class="rightOrWrongContainer">
+                <div class="rightOrWrongItem" v-for="rightOrWrongBoxNum in 10" :key="rightOrWrongBoxNum" ref="rightOrWrongBoxNum">
+                    <img src="/me/words/rightWrongIcon/right.jpg" alt="rightIcon" v-if="rights[rightOrWrongBoxNum-1]" height="50px">
+                    <img src="/me/words/rightWrongIcon/wrong.jpg" alt="wrongIcon" v-if="wrongs[rightOrWrongBoxNum-1]" height="42px">                    
+                </div>
+            </div>
             <div class="wordTestContainer">
                 <div class="itemContainer" v-for="(wordMeaningFromList,answerNum) in wordMeaningList" :key="wordMeaningFromList">
-                    {{wordMeaningFromList}} <input class="userAnswer" v-model="userAnswer[answerNum]" type="text" v-bind:disabled="inputDisableFlag">
+                    {{wordMeaningFromList}} <input class="userAnswer" v-model="userAnswer[answerNum]" ref="userAnswer" type="text" v-bind:disabled="inputDisableFlag">
                 </div>
                 <button v-if="submitBtnShow" v-on:click="wordSubmit">submit</button>
                 <button v-if="nextBtnShow" v-on:click="keepStudy">계속 단어 외우기</button>
@@ -40,7 +46,9 @@ export default {
         inputDisableFlag: false,
         record: 0,
         submitBtnShow: true,
-        nextBtnShow: false
+        nextBtnShow: false,
+        rights: [],
+        wrongs:[]
     }),
     methods: {
         wordRememberingStart() {
@@ -82,10 +90,15 @@ export default {
         },
         wordSubmit() {
             for (let i = 0; i < 10; i++) {
-                if (this.userAnswer[i] != this.wordNameList[i])
+                if (this.userAnswer[i] != this.wordNameList[i]){
+                    this.wrongs[i] = true;
                     this.userAnswer[i] = this.wordNameList[i];
-                else
+                    this.$refs.userAnswer[i].style.color = "red";
+                }
+                else{
+                    this.rights[i] = true;
                     this.record++; // 하나 맞출때마다 점수가 올라갑니다.
+                }
             }
             this.inputDisableFlag = true;
             this.submitBtnShow = false;
@@ -106,12 +119,31 @@ export default {
             this.submitBtnShow = true;
             this.nextBtnShow= false;
             this.inputDisableFlag = false;
+            this.rights = [];
+            this.wrongs = [];
         }
     }
 }
 </script>
 <style scoped>
+.rightOrWrongContainer{
+    border: 1px solid blue;
+    display: inline-block;
+    position: relative;
+    top:10px;
+    width:70px;
+    height:480px;
+}
+
+.rightOrWrongItem{
+    border: 1px solid gray;
+    height:48px;
+}
+
 .wordTestContainer {
+    position: absolute;
+    top:80px;
+    left:380px;
     height: 500px;
     width: 600px;
     display: flex;
@@ -126,6 +158,6 @@ export default {
 .userAnswer {
     border: 1px solid red;
     position: absolute;
-    left: 700px;
+    left: 400px;
 }
 </style>
