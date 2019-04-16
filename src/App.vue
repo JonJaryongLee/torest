@@ -1,9 +1,11 @@
 <template>
     <v-app id="inspire">
         <mainContents v-if="mainWindow"></mainContents>
-        <transition name="loginTransition">
-            <login v-on:loginSuccess="loginSuccess" v-if="loginWindow"></login>
-        </transition>
+        <div class="loginArea">
+            <div class="loginModalArea">
+                <login v-on:loginSuccess="loginSuccess" v-if="loginWindow"></login>
+            </div>
+        </div>
     </v-app>
 </template>
 <script>
@@ -33,8 +35,23 @@ export default {
 ::-webkit-scrollbar {
     display: none;
 }
-.loginTransition-enter,
-.loginTransition-leave-to{
-    opacity: 0;
+
+.loginArea {
+    /* The image used */
+    background-image: url("background.jpg");
+    /*추후 경로 수정해주세요*/
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.loginModalArea {
+    position: relative;
+    top: 200px;
 }
 </style>

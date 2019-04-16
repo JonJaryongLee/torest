@@ -1,29 +1,36 @@
 <template>
     <div>
         <div class="wordRememberingIntro" v-if="wordRememberingIntroShow">
-            <p>열 개의 단어가 주어집니다. 이후 시험이 치러집니다.</p>
-            <button v-on:click="wordRememberingStart">시작하기</button>
+            <p class="display-1">You are going to see 10 words and solve the word test.</p>
+            <v-btn class="wordRememberingStartBtn" color="success" v-on:click="wordRememberingStart">start</v-btn>
         </div>
         <div class="wordRemembering" v-if="wordRememberingShow">
-            <p>{{wordName}}</p>
+            <p class="display-2">{{wordName}}</p>
             <p>{{wordPrononciation}}</p>
             <p>{{wordMeaning}}</p>
-            <img :src="wordImg" height="42" width="42">
-            <button v-on:click="nextWord">다음</button>
+            <img class="wordImg" :src="wordImg" height="150" width="150">
+            <v-btn class="wordNextBtn" v-on:click="nextWord" color="success">next</v-btn>
         </div>
         <div class="wordTest" v-if="wordTestShow">
             <div class="rightOrWrongContainer">
                 <div class="rightOrWrongItem" v-for="rightOrWrongBoxNum in 10" :key="rightOrWrongBoxNum" ref="rightOrWrongBoxNum">
-                    <img src="/me/words/rightWrongIcon/right.jpg" alt="rightIcon" v-if="rights[rightOrWrongBoxNum-1]" height="50px">
-                    <img src="/me/words/rightWrongIcon/wrong.jpg" alt="wrongIcon" v-if="wrongs[rightOrWrongBoxNum-1]" height="42px">                    
+                    <div class="rightItemImgArea">
+                        <img src="/me/words/rightWrongIcon/right.jpg" alt="rightIcon" v-if="rights[rightOrWrongBoxNum-1]" height="45px">
+                    </div>
+                    <img src="/me/words/rightWrongIcon/wrong.jpg" alt="wrongIcon" v-if="wrongs[rightOrWrongBoxNum-1]" height="36px">
                 </div>
             </div>
             <div class="wordTestContainer">
                 <div class="itemContainer" v-for="(wordMeaningFromList,answerNum) in wordMeaningList" :key="wordMeaningFromList">
-                    {{wordMeaningFromList}} <input class="userAnswer" v-model="userAnswer[answerNum]" ref="userAnswer" type="text" v-bind:disabled="inputDisableFlag">
+                    <div class="wordMeaningInTestContainer">
+                        {{wordMeaningFromList}}
+                    </div>
+                    <div class="userAnswerBox">
+                        <input class="userAnswer" v-model="userAnswer[answerNum]" ref="userAnswer" type="text" v-bind:disabled="inputDisableFlag">
+                    </div>
                 </div>
-                <button v-if="submitBtnShow" v-on:click="wordSubmit">submit</button>
-                <button v-if="nextBtnShow" v-on:click="keepStudy">계속 단어 외우기</button>
+                <v-btn class="wordTestSubmitBtn" color="success" v-if="submitBtnShow" v-on:click="wordSubmit">submit</v-btn>
+                <v-btn class="keepDoingWordTestBtn" color="success" v-if="nextBtnShow" v-on:click="keepStudy">계속 단어 외우기</v-btn>
             </div>
         </div>
     </div>
@@ -48,7 +55,7 @@ export default {
         submitBtnShow: true,
         nextBtnShow: false,
         rights: [],
-        wrongs:[]
+        wrongs: []
     }),
     methods: {
         wordRememberingStart() {
@@ -90,12 +97,11 @@ export default {
         },
         wordSubmit() {
             for (let i = 0; i < 10; i++) {
-                if (this.userAnswer[i] != this.wordNameList[i]){
+                if (this.userAnswer[i] != this.wordNameList[i]) {
                     this.wrongs[i] = true;
                     this.userAnswer[i] = this.wordNameList[i];
                     this.$refs.userAnswer[i].style.color = "red";
-                }
-                else{
+                } else {
                     this.rights[i] = true;
                     this.record++; // 하나 맞출때마다 점수가 올라갑니다.
                 }
@@ -117,7 +123,7 @@ export default {
             this.userAnswer = [];
             this.record = 0;
             this.submitBtnShow = true;
-            this.nextBtnShow= false;
+            this.nextBtnShow = false;
             this.inputDisableFlag = false;
             this.rights = [];
             this.wrongs = [];
@@ -126,38 +132,110 @@ export default {
 }
 </script>
 <style scoped>
-.rightOrWrongContainer{
-    border: 1px solid blue;
-    display: inline-block;
+.wordRememberingIntro {
+    text-align: center;
     position: relative;
-    top:10px;
-    width:70px;
-    height:480px;
+    top: 250px;
+    color: #00C853;
 }
 
-.rightOrWrongItem{
-    border: 1px solid gray;
-    height:48px;
+.wordRememberingStartBtn {
+    margin: 20px;
+}
+
+.wordRemembering {
+    border: 2px solid #69F0AE;
+    border-radius: 20px;
+    width: 400px;
+    height: 450px;
+    position: relative;
+    text-align: center;
+    padding-top: 50px;
+    top: 100px;
+    left: 400px;
+}
+
+.wordImg {
+    display: block;
+    position: relative;
+    left: 120px;
+}
+
+.wordNextBtn {
+    text-align: center;
+    margin: 30px;
+}
+
+.rightOrWrongContainer {
+    display: inline-block;
+    position: relative;
+    top: 25px;
+    width: 70px;
+    height: 500px;
+}
+
+.wordTest {
+    position: relative;
+    top: 20px;
+    left: 250px;
+}
+
+.rightOrWrongItem {
+    height: 50px;
+}
+
+.rightItemImgArea {
+    position: relative;
+    bottom: 5px;
+    right: 3px;
 }
 
 .wordTestContainer {
     position: absolute;
-    top:80px;
-    left:380px;
-    height: 500px;
+    top: 10px;
+    left: 70px;
+    height: 540px;
     width: 600px;
     display: flex;
     flex-direction: column;
 }
 
 .itemContainer {
-    border: 1px solid black;
     flex-grow: 1;
 }
 
-.userAnswer {
-    border: 1px solid red;
+.wordMeaningInTestContainer {
+    position: relative;
+    top: 25px;
+}
+
+.userAnswerBox {
     position: absolute;
     left: 400px;
+    display: inline;
+    height: 30px;
+    width: 180px;
+    border: 2px solid gray;
+    border-radius: 20px;
+    background-color: white;
+}
+
+.userAnswer {
+    position: relative;
+    top: 2px;
+    left: 6px;
+    outline: none;
+}
+
+.wordTestSubmitBtn{
+    position: relative;
+    top:40px;
+    right:10px;
+}
+
+.keepDoingWordTestBtn{
+    position: relative;
+    top:40px;
+    right:10px;
 }
 </style>
