@@ -4,16 +4,16 @@
             <template v-slot:activator="{ on }">
                 <div class="mapContainer">
                     <div class="mapParentItem" v-for="n in 3" :key="n" ref="mapParentItem">
-                        <div class="mapChildItem" v-for="m in 3" :key="m" ref="mapChildItem" v-on="on" v-on:click="setLocation(n,m)">
+                        <div class="mapChildItem" v-for="m in 3" :key="m" ref="mapChildItem" v-on="on">
                             <div class="imgOfMap">
-                                <img v-bind:src="imgCircumstance" v-if="imgCircumstance" alt="errer" height=70>
+                                <img ref="mapImg" v-bind:src="locationURL[locationCheck(m,n)]" v-if="locationURL" alt="errer" height=70>
                             </div>
                         </div>
                     </div>
                 </div>
             </template>
             <v-list>
-                <v-list-tile v-for="(userItem, itemIndex) in userItems" :key="itemIndex" v-on:click="putIn(userItem)">
+                <v-list-tile v-for="(userItem, itemIndex) in userItems" :key="itemIndex" v-on:click="">
                     <v-list-tile-title>{{userItem}}</v-list-tile-title>
                 </v-list-tile>
             </v-list>
@@ -21,23 +21,65 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
     data: () => ({
-        imgCircumstance: "",
-        userItems: [
-            'pear',
-            'persimmon',
-            'pine'
-        ],
-        selectedLocation: []
+        userItems: [],
+        attachedItems: [],
+        locationURL: []
     }),
+    created() {
+        axios.get('me/profile') // 추후 수정
+            .then(response => {
+                for (let i = response.data.item.length - 1; i >= 0; i--) {
+                    if (response.data.item[i].location == -1) {
+                        this.userItems.push(response.data.item[i].itemName);
+                    } else {
+                        this.attachedItems[response.data.item[i].location] = response.data.item[i].itemName;
+                    }
+                }
+                for (let i = this.$refs.mapChildItem.length - 1; i >= 0; i--) {
+                    if (!this.attachedItems[i]) {
+                        this.attachedItems[i] = "soil"
+                    }
+                }
+                for (let i = this.$refs.mapChildItem.length - 1; i >= 0; i--) {
+                    if (this.attachedItems[i]) {
+                        let urlName = this.nameURL(this.attachedItems[i]);
+                        this.locationURL[i] = urlName;
+                    }
+                }
+            });
+    },
     methods: {
-        setLocation(n, m) {
-            this.selectedLocation = [n, m];
+        nameURL(itemName) {
+            let urlName;
+            urlName = "/Jony/itemImg/" + itemName + ".jpg"; // 추후 수정해야
+            return urlName;
         },
-        putIn(userItemName) {
-            this.imgCircumstance = "/Jony/itemImg/" + userItemName + ".jpg";
-
+        locationCheck(m, n) {
+            if (m == 1) {
+                if (n == 1)
+                    return 0;
+                else if (n == 2)
+                    return 1;
+                else
+                    return 2;
+            } else if (m == 2) {
+                if (n == 1)
+                    return 3;
+                else if (n == 2)
+                    return 4;
+                else
+                    return 5;
+            } else {
+                if (n == 1)
+                    return 6;
+                else if (n == 2)
+                    return 7;
+                else
+                    return 8;
+            }
         }
     }
 }
