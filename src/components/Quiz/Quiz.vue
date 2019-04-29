@@ -18,6 +18,8 @@
                 <div class="answerBox">
                     <v-btn outline v-on:click="answerCheck(0)" v-bind:disabled="done">{{choice0}}</v-btn>
                     <v-btn outline v-on:click="answerCheck(1)" v-bind:disabled="done">{{choice1}}</v-btn>
+                    <v-btn outline v-on:click="answerCheck(2)" v-bind:disabled="done">{{choice2}}</v-btn>
+                    <v-btn outline v-on:click="answerCheck(3)" v-bind:disabled="done">{{choice3}}</v-btn>
                 </div>
             </div>
             <div class="answerAlertArea">
@@ -40,7 +42,7 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            allQuestionsNumber: 3,
+            allQuestionsNumber: 10,
             interval: {},
             timerValue: 100,
             infoShow: true,
@@ -49,6 +51,8 @@ export default {
             questionEnd: "",
             choice0: "",
             choice1: "",
+            choice2: "",
+            choice3: "",
             answerNum: 0,
             quizCounter: 0,
             rightAnswerFlag: false,
@@ -76,11 +80,13 @@ export default {
             this.timerReset();
             axios.get('/me/quiz/set1') // 추후 수정 
                 .then(response => {
-                    this.questionFront = response.data[this.quizCounter].questionFront;
-                    this.questionEnd = response.data[this.quizCounter].questionEnd;
-                    this.answerNum = response.data[this.quizCounter].answerNum;
-                    this.choice0 = response.data[this.quizCounter].choice0;
-                    this.choice1 = response.data[this.quizCounter].choice1;
+                    this.questionFront = response.questionFront;
+                    this.questionEnd = response.data.questionEnd;
+                    this.answerNum = response.data.answerNum;
+                    this.choice0 = response.data.choice0;
+                    this.choice1 = response.data.choice1;
+                    this.choice2 = response.data.choice2;
+                    this.choice3 = response.data.choice3;
                 });
         },
         answerCheck(userChoicedAnswer) {
@@ -117,6 +123,8 @@ export default {
             this.questionEnd = "";
             this.choice0 = "";
             this.choice1 = "";
+            this.choice2 = "";
+            this.choice3 = "";
             this.answerNum = 0;
             this.quizCounter = 0;
             this.rightAnswerFlag = false;
