@@ -1,0 +1,36 @@
+{
+    "name": "Sophie",
+    "img": "me/sophie.jpg",
+    "item":[
+        {
+            "itemNum": "i002",
+            "itemName": "pine",
+            "location": 8
+        },
+        {
+            "itemNum": "i001",
+            "itemName": "persimmon",
+            "location": 4
+        },
+        {
+            "itemNum": "i000",
+            "itemName": "pear",
+            "location": 1
+        },
+        {
+            "itemNum": "i001",
+            "itemName": "persimmon",
+            "location": 0
+        },
+        {
+            "itemNum": "i000",
+            "itemName": "pear",
+            "location": -1
+        },
+        {
+            "itemNum": "i002",
+            "itemName": "pine",
+            "location": -1
+        }
+    ]
+}

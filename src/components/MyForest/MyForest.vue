@@ -4,7 +4,7 @@
             <template v-slot:activator="{ on }">
                 <div class="mapContainer">
                     <div class="mapParentItem" v-for="n in 3" :key="n" ref="mapParentItem">
-                        <div class="mapChildItem" v-for="m in 3" :key="m" ref="mapChildItem" v-on="on">
+                        <div class="mapChildItem" v-for="m in 3" :key="m" ref="mapChildItem" v-on="on" v-on:click="setSelectedLocation(m,n)">
                             <div class="imgOfMap">
                                 <img ref="mapImg" v-bind:src="locationURL[locationCheck(m,n)]" v-if="locationURL" alt="errer" height=70>
                             </div>
@@ -13,7 +13,7 @@
                 </div>
             </template>
             <v-list>
-                <v-list-tile v-for="(userItem, itemIndex) in userItems" :key="itemIndex" v-on:click="">
+                <v-list-tile v-for="(userItem, itemIndex) in userItems" :key="itemIndex">
                     <v-list-tile-title>{{userItem}}</v-list-tile-title>
                 </v-list-tile>
             </v-list>
@@ -80,6 +80,10 @@ export default {
                 else
                     return 8;
             }
+        },
+        setSelectedLocation(m,n){
+            let result = this.locationCheck(m,n);
+            console.log(result);
         }
     }
 }
