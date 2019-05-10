@@ -1,12 +1,15 @@
 <template>
-    <div>
+    <div class="myForestContainer">
+        <div class="landContainer">
+            <img src="/img/land.png" height="520px" alt="land">
+        </div>
         <v-menu offset-x>
             <template v-slot:activator="{ on }">
                 <div class="mapContainer">
                     <div class="mapParentItem" v-for="n in 3" :key="n" ref="mapParentItem">
                         <div class="mapChildItem" v-for="m in 3" :key="m" ref="mapChildItem" v-on="on" v-on:click="setSelectedLocation(m,n)">
                             <div class="imgOfMap">
-                                <img ref="mapImg" v-bind:src="locationURL[locationCheck(m,n)]" v-if="locationURL" alt="errer" height=70>
+                                <img ref="mapImg" v-bind:src="locationURL[locationCheck(m,n)]" v-if="locationURL" alt="errer" height=60>
                             </div>
                         </div>
                     </div>
@@ -29,18 +32,18 @@ export default {
         locationURL: []
     }),
     created() {
-        axios.get('me/profile') // 추후 수정
+        axios.get('profile') // 추후 수정
             .then(response => {
                 for (let i = response.data.item.length - 1; i >= 0; i--) {
                     if (response.data.item[i].location == -1) {
                         this.userItems.push(response.data.item[i].itemName);
                     } else {
-                        this.attachedItems[response.data.item[i].location] = response.data.item[i].itemName;
+                        this.attachedItems[response.data.item[i].location] = response.data.item[i].itemLocation;
                     }
                 }
                 for (let i = this.$refs.mapChildItem.length - 1; i >= 0; i--) {
                     if (!this.attachedItems[i]) {
-                        this.attachedItems[i] = "soil"
+                        this.attachedItems[i] = "sprout/sproutSmall"
                     }
                 }
                 for (let i = this.$refs.mapChildItem.length - 1; i >= 0; i--) {
@@ -52,9 +55,9 @@ export default {
             });
     },
     methods: {
-        nameURL(itemName) {
+        nameURL(itemLocation) {
             let urlName;
-            urlName = "/Jony/itemImg/" + itemName + ".jpg"; // 추후 수정해야
+            urlName = "/img/item/" + itemLocation + ".png"; // 추후 수정해야
             return urlName;
         },
         locationCheck(m, n) {
@@ -89,34 +92,56 @@ export default {
 }
 </script>
 <style scoped>
+.myForestContainer{
+    /* The image used */
+    background-image: url("/img/backgroundOfForest.png");
+    
+    /*추후 경로 수정해주세요*/
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.landContainer{
+    position: absolute;
+    top:190px;
+    left:630px;
+}
+
 .mapChildItem:hover {
     background-color: #C8E6C9;
 }
 
 .mapContainer {
+    /*border: 1px solid red;*/
     position: relative;
-    top: 100px;
+    top: 115px;
     left: 400px;
     display: flex;
-    border: 1px solid gray;
-    height: 400px;
-    width: 400px;
-    transform: rotateX(50deg) rotate(45deg);
+    height: 380px;
+    width: 380px;
+    transform:rotateX(62deg) rotate(45deg);
 }
 
 .imgOfMap {
-    transform: rotateX(0deg) rotate(-45deg);
+    position: relative;
+    left:20px;
+    transform: rotate(-45deg) scale(1,2);
 }
 
 .mapParentItem {
-    border: 1px solid red;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 
 .mapChildItem {
-    border: 1px solid blue;
+    /*border:1px solid gray;*/
     flex-grow: 1;
 }
 </style>

@@ -38,7 +38,7 @@ export default {
 
 .loginArea {
     /* The image used */
-    background-image: url("background.jpg");
+    background-image: url("/img/background.jpg");
     /*추후 경로 수정해주세요*/
 
     /* Full height */

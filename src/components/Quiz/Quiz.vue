@@ -16,10 +16,10 @@
                         {{questionEnd}}</p>
                 </div>
                 <div class="answerBox">
-                    <v-btn outline v-on:click="answerCheck(0)" v-bind:disabled="done">{{choice0}}</v-btn>
-                    <v-btn outline v-on:click="answerCheck(1)" v-bind:disabled="done">{{choice1}}</v-btn>
-                    <v-btn outline v-on:click="answerCheck(2)" v-bind:disabled="done">{{choice2}}</v-btn>
-                    <v-btn outline v-on:click="answerCheck(3)" v-bind:disabled="done">{{choice3}}</v-btn>
+                    <v-btn outline v-on:click="answerCheck('A')" v-bind:disabled="done">{{choice0}}</v-btn>
+                    <v-btn outline v-on:click="answerCheck('B')" v-bind:disabled="done">{{choice1}}</v-btn>
+                    <v-btn outline v-on:click="answerCheck('C')" v-bind:disabled="done">{{choice2}}</v-btn>
+                    <v-btn outline v-on:click="answerCheck('D')" v-bind:disabled="done">{{choice3}}</v-btn>
                 </div>
             </div>
             <div class="answerAlertArea">
@@ -78,15 +78,16 @@ export default {
         },
         loadQuiz() {
             this.timerReset();
-            axios.get('/me/quiz/set1') // 추후 수정 
+            axios.get('/php/random.php') // 추후 수정 
                 .then(response => {
-                    this.questionFront = response.questionFront;
-                    this.questionEnd = response.data.questionEnd;
-                    this.answerNum = response.data.answerNum;
-                    this.choice0 = response.data.choice0;
-                    this.choice1 = response.data.choice1;
-                    this.choice2 = response.data.choice2;
-                    this.choice3 = response.data.choice3;
+                    this.questionFront = response.data[0].questionFront;
+                    this.questionEnd = response.data[0].questionEnd;
+                    this.answerNum = response.data[0].answerNum;
+                    this.choice0 = response.data[0].choice0;
+                    this.choice1 = response.data[0].choice1;
+                    this.choice2 = response.data[0].choice2;
+                    this.choice3 = response.data[0].choice3;
+                    console.log(this.answerNum);
                 });
         },
         answerCheck(userChoicedAnswer) {

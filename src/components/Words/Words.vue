@@ -15,9 +15,9 @@
             <div class="rightOrWrongContainer">
                 <div class="rightOrWrongItem" v-for="rightOrWrongBoxNum in 10" :key="rightOrWrongBoxNum" ref="rightOrWrongBoxNum">
                     <div class="rightItemImgArea">
-                        <img src="/me/words/rightWrongIcon/right.jpg" alt="rightIcon" v-if="rights[rightOrWrongBoxNum-1]" height="45px">
+                        <img src="/img/icon/checked.png" alt="rightIcon" v-if="rights[rightOrWrongBoxNum-1]" height="37px">
                     </div>
-                    <img src="/me/words/rightWrongIcon/wrong.jpg" alt="wrongIcon" v-if="wrongs[rightOrWrongBoxNum-1]" height="36px">
+                    <img src="/img/icon/cancel.png" alt="wrongIcon" v-if="wrongs[rightOrWrongBoxNum-1]" height="36px">
                 </div>
             </div>
             <div class="wordTestContainer">
@@ -64,7 +64,7 @@ export default {
             this.loadWord();
         },
         loadWord() {
-            axios.get('/me/words/level1') // 추후 수정
+            axios.get('/php/words.php') // 추후 수정
                 .then(response => {
                     this.wordName = response.data[this.wordCounter].wordName;
                     this.wordPrononciation = response.data[this.wordCounter].wordPrononciation;
@@ -73,7 +73,7 @@ export default {
                 });
         },
         loadAllWords() {
-            axios.get('/me/words/level1') // 추후 수정
+            axios.get('/php/words.php') // 추후 수정
                 .then(response => {
                     for (let i = 0; i < response.data.length; i++) {
                         this.wordNameList.push(response.data[i].wordName);
@@ -85,7 +85,7 @@ export default {
             this.wordCounter++;
 
             //10개의 단어를 보면 시험을 실시합니다.
-            if (this.wordCounter == 3) {
+            if (this.wordCounter == 10) {
                 this.wordRememberingShow = false;
                 this.wordTestShow = true;
                 this.wordTest();
@@ -94,6 +94,7 @@ export default {
         },
         wordTest() {
             this.loadAllWords();
+            console.log(this.wordNameList);
         },
         wordSubmit() {
             for (let i = 0; i < 10; i++) {
@@ -186,8 +187,8 @@ export default {
 
 .rightItemImgArea {
     position: relative;
-    bottom: 5px;
-    right: 3px;
+    bottom: 2px;
+    right: 1px;
 }
 
 .wordTestContainer {

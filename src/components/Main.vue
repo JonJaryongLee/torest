@@ -6,7 +6,7 @@
                 :size=150
                 color="grey lighten-4"
             >
-                <img src="me/sophie.jpg" alt="avatar">
+                <img src="/sophie.jpg" alt="avatar">
             </v-avatar>
             <p class="userName display-1" >{{userName}}</p>
             <v-list-tile @click="myForest">
