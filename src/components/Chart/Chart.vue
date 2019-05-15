@@ -6,8 +6,14 @@
 
 <script>
   export default{
+    props: ['userChart'],
+    created(){
+      for (let i = 0; i < this.userChart.length; i++) {
+        this.chartData.push([this.userChart[i].날짜,this.userChart[i].점수])
+      }
+    },
     data: () => ({
-      chartData: [["5/20", 630], ["5/21", 650], ["5/22", 730], ["5/23", 850], ["5/24", 890], ["5/25", 950], ["5/26", 990]]
+      chartData: []
     })
   }
 </script>

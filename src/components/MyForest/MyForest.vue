@@ -16,48 +16,39 @@
                 </div>
             </template>
             <v-list>
-                <v-list-tile v-for="(userItem, itemIndex) in userItems" :key="itemIndex">
+                <v-list-tile v-for="(userItem, itemIndex) in userItems" :key="itemIndex" v-on:click="itemChange(userItem)">
                     <v-list-tile-title>{{userItem}}</v-list-tile-title>
                 </v-list-tile>
             </v-list>
         </v-menu>
+        <div class="destroyBtn">
+            <v-btn color="error" v-on:click="destroy">destroy</v-btn>
+        </div>
     </div>
 </template>
 <script>
 import axios from 'axios'
 export default {
+    props: ['userItem'],
     data: () => ({
         userItems: [],
         attachedItems: [],
-        locationURL: []
+        locationURL: [],
+        selectedLocation: -1
     }),
-    created() {
-        axios.get('profile') // 추후 수정
-            .then(response => {
-                for (let i = response.data.item.length - 1; i >= 0; i--) {
-                    if (response.data.item[i].location == -1) {
-                        this.userItems.push(response.data.item[i].itemName);
-                    } else {
-                        this.attachedItems[response.data.item[i].location] = response.data.item[i].itemLocation;
-                    }
-                }
-                for (let i = this.$refs.mapChildItem.length - 1; i >= 0; i--) {
-                    if (!this.attachedItems[i]) {
-                        this.attachedItems[i] = "sprout/sproutSmall"
-                    }
-                }
-                for (let i = this.$refs.mapChildItem.length - 1; i >= 0; i--) {
-                    if (this.attachedItems[i]) {
-                        let urlName = this.nameURL(this.attachedItems[i]);
-                        this.locationURL[i] = urlName;
-                    }
-                }
-            });
+    mounted() {
+        this.mapInit(this.userItem);
+    },
+    computed: {
+        mapChange() {
+            this.mapInit(this.userItem);
+            return 0;
+        }
     },
     methods: {
         nameURL(itemLocation) {
             let urlName;
-            urlName = "/img/item/" + itemLocation + ".png"; // 추후 수정해야
+            urlName = "/img/item/" + itemLocation; // 추후 수정해야
             return urlName;
         },
         locationCheck(m, n) {
@@ -84,18 +75,53 @@ export default {
                     return 8;
             }
         },
-        setSelectedLocation(m,n){
-            let result = this.locationCheck(m,n);
-            console.log(result);
+        setSelectedLocation(m, n) {
+            let result = this.locationCheck(m, n);
+            this.selectedLocation = result;
+        },
+        itemChange(selectedItem) {
+            axios.post('./php/itemChange.php', { "selectedItem": selectedItem, "location": this.selectedLocation })
+                .then(response => {
+                    this.$emit('itemChange', response.data.item);
+                })
+        },
+        mapInit(userItem) {
+            this.userItems = [];
+            this.attachedItems = [];
+            for (let i = userItem.length - 1; i >= 0; i--) {
+                if (userItem[i].location == -1) {
+                    this.userItems.push(userItem[i].itemName);
+                } else {
+                    this.attachedItems[userItem[i].location] = userItem[i].itemLocation;
+                }
+            }
+            for (let i = this.$refs.mapChildItem.length - 1; i >= 0; i--) {
+                if (!this.attachedItems[i]) {
+                    this.attachedItems[i] = "sprout/sproutSmall.png"
+                }
+            }
+            for (let i = this.$refs.mapChildItem.length - 1; i >= 0; i--) {
+                if (this.attachedItems[i]) {
+                    let urlName = this.nameURL(this.attachedItems[i]);
+                    this.locationURL[i] = urlName;
+                }
+            }
+        },
+        destroy() {
+            axios.post('./php/destroy.php')
+                .then(response => {
+                    console.log(response.data);
+                    this.$emit('itemChange', response.data);
+                })
         }
     }
 }
 </script>
 <style scoped>
-.myForestContainer{
+.myForestContainer {
     /* The image used */
     background-image: url("/img/backgroundOfForest.png");
-    
+
     /*추후 경로 수정해주세요*/
 
     /* Full height */
@@ -107,10 +133,10 @@ export default {
     background-size: cover;
 }
 
-.landContainer{
+.landContainer {
     position: absolute;
-    top:190px;
-    left:630px;
+    top: 190px;
+    left: 630px;
 }
 
 .mapChildItem:hover {
@@ -125,13 +151,13 @@ export default {
     display: flex;
     height: 380px;
     width: 380px;
-    transform:rotateX(62deg) rotate(45deg);
+    transform: rotateX(62deg) rotate(45deg);
 }
 
 .imgOfMap {
     position: relative;
-    left:20px;
-    transform: rotate(-45deg) scale(1,2);
+    left: 20px;
+    transform: rotate(-45deg) scale(1, 2);
 }
 
 .mapParentItem {
@@ -143,5 +169,11 @@ export default {
 .mapChildItem {
     /*border:1px solid gray;*/
     flex-grow: 1;
+}
+
+.destroyBtn {
+    position: relative;
+    top: 200px;
+    left: 1100px;
 }
 </style>

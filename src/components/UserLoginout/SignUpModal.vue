@@ -25,6 +25,7 @@
     </v-dialog>
 </template>
 <script type="text/javascript" scoped>
+import axios from 'axios'
 export default {
     props: ['signUpModalOpen'],
     data: () => ({
@@ -46,9 +47,17 @@ export default {
         },
         signUpRequest() {
             if (this.valid == true) {
-                //사용자 회원가입 서버에 요청
-                //이후 접속 성공
-                this.$emit('succeedSignUp');
+                axios.post('./php/signUp.php', { "id": this.id, "pw": this.pw })
+                    .then(response => {
+                        console.log("reveived Data at SignUpModal.vue:", response.data);
+                        this.$emit('succeedSignUp', response.data);
+                    })
+                    .catch(error => {
+                        if (error) {
+                            alert("회원가입 실패!");
+                        }
+                    })
+
             }
         }
     }

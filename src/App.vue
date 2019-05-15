@@ -1,9 +1,9 @@
 <template>
     <v-app id="inspire">
-        <mainContents v-if="mainWindow"></mainContents>
+        <mainContents v-if="mainWindow" v-bind:userData="userData"></mainContents>
         <div class="loginArea">
             <div class="loginModalArea">
-                <login v-on:loginSuccess="loginSuccess" v-if="loginWindow"></login>
+                <login v-if="loginWindow" v-on:loginSuccess="loginSuccess" v-on:signUpSuccess="signUpSuccess"></login>
             </div>
         </div>
     </v-app>
@@ -21,10 +21,24 @@ export default {
     },
     data: () => ({
         loginWindow: false,
-        mainWindow: false
+        mainWindow: false,
+        userData:{}
     }),
     methods: {
-        loginSuccess() {
+        loginSuccess(userData) {
+            if (userData == "admin") {
+                console.log("app.vue login User Data:", userData);
+                this.loginWindow = false;
+                setTimeout(() => this.mainWindow = true, 1000);
+            }
+            else {
+                this.userData = userData;
+                this.loginWindow = false;
+                setTimeout(()=>this.mainWindow = true, 1000);
+            }
+        },
+        signUpSuccess(userData) {
+            console.log("app.vue signUp User Data", userData);
             this.loginWindow = false;
             setTimeout(() => this.mainWindow = true, 1000);
         }
