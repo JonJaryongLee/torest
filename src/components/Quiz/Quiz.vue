@@ -87,6 +87,7 @@ export default {
                     this.choice1 = response.data[0].choice1;
                     this.choice2 = response.data[0].choice2;
                     this.choice3 = response.data[0].choice3;
+                    console.log("해설은 다음과 같다.",response.data[0].solution);
                     console.log(this.answerNum);
                 });
         },

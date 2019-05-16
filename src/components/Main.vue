@@ -63,6 +63,13 @@
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
+
+            <!-- 유저체인지에서 유저 이름 대신 아이디로 써주세요. -->
+
+            <div class="userChangeBtnContainer">
+                <v-btn v-on:click="userChange('jony8112')">jony</v-btn>
+                <v-btn v-on:click="userChange('sujin11')">sophie</v-btn>
+            </div>
         </v-navigation-drawer>
         <!-- 설정창 -->
         <settings v-if="settingsShow" v-bind:SettingsModalOpen="settingsShow" v-on:closeSettingsModal="closeSettingsModal"></settings>
@@ -90,6 +97,7 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
 import logoutDialog from './UserLoginout/Logout.vue'
 import settings from './Settings/Settings.vue'
 import chart from './Chart/Chart.vue'
@@ -180,6 +188,21 @@ export default {
         },
         itemChange(changedItemData) {
             this.userItem = changedItemData;
+        },
+        userChange(changedUserName) {
+            axios.post('/php/userChange.php', { id: changedUserName })
+                .then(response => {
+                    this.userName = response.data.name;
+                    this.profilePicture = response.data.profile;
+                    this.userGrade = response.data.grade;
+                    this.userItem = response.data.item;
+                    this.userChart = response.data.chartData;
+                })
+                .catch(error => {
+                    if (error) {
+                        alert("유저변경 실패!");
+                    }
+                });
         }
     }
 }
@@ -200,5 +223,9 @@ export default {
 
 .userName {
     text-align: center;
+}
+
+.userChangeBtnContainer {
+    padding: 40px;
 }
 </style>

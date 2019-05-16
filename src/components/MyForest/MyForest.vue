@@ -21,8 +21,8 @@
                 </v-list-tile>
             </v-list>
         </v-menu>
-        <div class="destroyBtn">
-            <v-btn color="error" v-on:click="destroy">destroy</v-btn>
+        <div class="unFireBtn">
+            <v-btn color="error" v-on:click="unFire">unFire</v-btn>
         </div>
     </div>
 </template>
@@ -102,11 +102,11 @@ export default {
                 }
             }
         },
-        destroy() {
-            axios.post('./php/destroy.php')
+        unFire() {
+            axios.post('./php/unFire.php')
                 .then(response => {
-                    this.$emit('itemChange', response.data.item);
-                    this.mapInit(response.data.item);
+                    this.$emit('itemChange', response.data);
+                    this.mapInit(response.data);
                 })
         }
     }
@@ -166,7 +166,7 @@ export default {
     flex-grow: 1;
 }
 
-.destroyBtn {
+.unFireBtn {
     position: relative;
     top: 200px;
     left: 1100px;

@@ -30,11 +30,13 @@ export default {
             this.$emit('closeNameSet');
         },
         onSave() {
+            console.log("아직 보내기 전의 유저네임입니다.",this.uploadUserName);
             if (this.uploadUserName == "test") {
                 this.$emit('successNameSet', "test");
             } else {
                 axios.post('./php/setName.php', { "name": this.uploadUserName })
                     .then(response => {
+                        console.log("setName.php실행결과입니다. : ",response.data);
                         if (response.data == "success") {
                             this.$emit('successNameSet', this.response.data);
                         } else {
