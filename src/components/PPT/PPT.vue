@@ -13,16 +13,16 @@ export default {
             imgSrc: []
         }
     },
-    created(){
-        for (let i=1; i<=this.pageNum; i++) {
-            this.imgSrc.push("img/ppt/"+ i +".JPG");
+    created() {
+        for (let i = 1; i <= this.pageNum; i++) {
+            this.imgSrc.push("img/ppt/" + i + ".JPG");
         }
     }
 }
 </script>
 <style type="text/css" scoped>
-.pptContainer{
+.pptContainer {
     position: relative;
-    left:95px;
+    left: 95px;
 }
 </style>

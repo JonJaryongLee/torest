@@ -228,15 +228,15 @@ export default {
     outline: none;
 }
 
-.wordTestSubmitBtn{
+.wordTestSubmitBtn {
     position: relative;
-    top:40px;
-    right:10px;
+    top: 40px;
+    right: 10px;
 }
 
-.keepDoingWordTestBtn{
+.keepDoingWordTestBtn {
     position: relative;
-    top:40px;
-    right:10px;
+    top: 40px;
+    right: 10px;
 }
 </style>

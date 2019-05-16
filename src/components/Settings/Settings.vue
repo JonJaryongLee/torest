@@ -10,10 +10,7 @@
                         <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
                             <img :src="imageUrl" height="150" v-if="imageUrl">
                             <v-text-field label="Select Image" @click='pickFile' v-model='imageName' prepend-icon='attach_file'></v-text-field>
-                            <input
-                                    type="file"
-                                    style="display: none"
-                            >
+                            <input type="file" style="display: none">
                         </v-flex>
                         <v-flex xs12>
                             <v-text-field v-model="uploadUserName" label="이름"></v-text-field>
@@ -29,31 +26,28 @@
         </v-card>
     </v-dialog>
 </template>
-
 <script type="text/javascript" scoped>
-    export default {
-        props: ['SettingsModalOpen'], 
-        data: () => ({
-            imageName:"",
-            imageUrl:"",
-            uploadUserName:""
-        }),
-        methods: {
-            pickFile(){
-                // 파일을 집는 함수
-            },
-            close(){
-                this.$emit('closeSettingsModal');
-            },
-            onSave(){
-                //사용자 정보 변경 서버에 요청
-                //최종적으로 창을 종료
-                this.$emit('closeSettingsModal');
-            }
+export default {
+    props: ['SettingsModalOpen'],
+    data: () => ({
+        imageName: "",
+        imageUrl: "",
+        uploadUserName: ""
+    }),
+    methods: {
+        pickFile() {
+            // 파일을 집는 함수
+        },
+        close() {
+            this.$emit('closeSettingsModal');
+        },
+        onSave() {
+            //사용자 정보 변경 서버에 요청
+            //최종적으로 창을 종료
+            this.$emit('closeSettingsModal');
         }
     }
+}
 </script>
-
 <style type="text/css" scoped>
-
 </style>

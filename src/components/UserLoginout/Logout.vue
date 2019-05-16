@@ -12,24 +12,21 @@
         </v-card>
     </v-dialog>
 </template>
-
 <script type="text/javascript" scoped>
-    export default {
-        props: ['propsdata'],
-        methods: {
-            // 로그아웃합니다. 임시로, 구글로 다이렉트됩니다. 
-            onLogout() {
-                window.location.href = "https://www.google.co.kr/";
-            },
+export default {
+    props: ['propsdata'],
+    methods: {
+        // 로그아웃합니다. 임시로, 구글로 다이렉트됩니다. 
+        onLogout() {
+            window.location.href = "https://www.google.co.kr/";
+        },
 
-            //창을 닫습니다.
-            close(){
-                this.$emit('closeLogoutModal')
-            }
+        //창을 닫습니다.
+        close() {
+            this.$emit('closeLogoutModal')
         }
     }
+}
 </script>
-
 <style type="text/css" scoped>
-
 </style>

@@ -9,7 +9,7 @@
                         <v-card-text>
                             <v-form>
                                 <v-text-field prepend-icon="person" name="id" label="id" type="text" color="green accent-2" v-model="id"></v-text-field>
-                                <v-text-field id="password" prepend-icon="lock" name="password" label="Password" type="password" color="green accent-2" v-model="pw"></v-text-field>
+                                <v-text-field id="password" prepend-icon="lock" name="password" label="Password" type="password" color="green accent-2" v-model="pw" v-on:keyup.enter="login"></v-text-field>
                             </v-form>
                         </v-card-text>
                         <v-card-actions>
@@ -70,10 +70,7 @@ export default {
             this.signUpShow = true;
         },
         succeedSignUp(userData) {
-            console.log("Login.vue signUp userData:", userData);
-            this.loginSuccess = true;
-            if (this.loginSucess == true)
-                this.$emit('signUpSuccess', userData);
+            this.$emit('signUpSuccess', userData);
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="quizInfo" v-if="infoShow">
-            <p class="display-3">퀴즈를 시작합니다.</p>
+            <p class="display-3">레벨테스트를 시작합니다.</p>
             <p class="body-2">총 10문제가 주어지며, 정답을 빨리 맞출수록 고득점을 받습니다.</p>
             <v-btn color="success" v-on:click="runQuiz">Start</v-btn>
         </div>
@@ -31,18 +31,28 @@
                 </v-alert>
             </div>
         </div>
-        <div class="resultPage display-1" v-if="resultShow">
-            당신의 예상점수는 {{totalScore}}점입니다.
-            <v-btn class="retryBtn" color="success" v-on:click="runQuiz">다시 하기</v-btn>
+        <div class="resultPage" v-if="resultShow">
+            <div class="resultImgContainer">
+                <img src="/img/levelTest/levelTestResult.jpg" alt="levelTestImg" height="600px">
+                <div class="scoreContainer display-4">
+                    {{totalScore}}
+                </div>
+            </div>
+            <v-btn class="runSetupBtn" color="success" v-on:click="runSetup">이름 정하기</v-btn>
         </div>
+        <nameSet v-if="nameSetShow" v-bind:nameSetShow="nameSetShow" v-on:closeNameSet="closeNameSet" v-on:successNameSet="successNameSet"></nameSet>
     </div>
 </template>
 <script>
 import axios from 'axios'
+import nameSet from './NameSet.vue'
 export default {
+    components: {
+        'nameSet': nameSet
+    },
     data() {
         return {
-            allQuestionsNumber: 10,
+            allQuestionsNumber: 1,
             interval: {},
             timerValue: 100,
             infoShow: true,
@@ -59,7 +69,8 @@ export default {
             wrongAnswerFlag: false,
             done: false,
             totalScore: 785,
-            resultShow: false
+            resultShow: false,
+            nameSetShow: false
         }
     },
     methods: {
@@ -87,7 +98,6 @@ export default {
                     this.choice1 = response.data[0].choice1;
                     this.choice2 = response.data[0].choice2;
                     this.choice3 = response.data[0].choice3;
-                    console.log(this.answerNum);
                 });
         },
         answerCheck(userChoicedAnswer) {
@@ -131,11 +141,26 @@ export default {
             this.rightAnswerFlag = false;
             this.wrongAnswerFlag = false;
             this.done = false;
+        },
+        runSetup() {
+            this.nameSetShow = true;
+        },
+        closeNameSet() {
+            this.nameSetShow = false;
+        },
+        successNameSet(userName) {
+            this.$emit('successNameSet', userName, this.totalScore);
         }
     }
 }
 </script>
 <style scoped>
+.quizTemplate {
+    position: relative;
+    top: 100px;
+    left: 150px;
+}
+
 .quizInfo {
     text-align: center;
     position: relative;
@@ -159,17 +184,38 @@ export default {
     left: 1080px;
 }
 
+.answerAlertArea {
+    position: relative;
+    top: 0px;
+    left: 100px;
+    height: 100px;
+    width: 1090px;
+    display: inline-block;
+}
+
 .resultPage {
     position: relative;
-    top: 260px;
     text-align: center;
     color: #00C853;
 }
 
-.retryBtn {
+.runSetupBtn {
     display: block;
     position: relative;
-    top: 30px;
-    left: 550px;
+    bottom: 100px;
+    left: 715px;
+}
+
+.resultImgContainer {
+    position: relative;
+    bottom: 0px;
+    left: 0px;
+}
+
+.scoreContainer {
+    color: #D4E157;
+    position: relative;
+    bottom: 400px;
+    left: 10px;
 }
 </style>
