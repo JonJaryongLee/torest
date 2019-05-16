@@ -1,6 +1,6 @@
 <template>
     <v-app id="inspire">
-        <!--         <v-btn v-on:click="levelTestTest" v-if="levelTestTestBtnShow">go level test</v-btn> -->
+        <!--                 <v-btn v-on:click="levelTestTest" v-if="levelTestTestBtnShow">go level test</v-btn> -->
         <mainContents v-if="mainWindow" v-bind:userData="userData"></mainContents>
         <div class="loginArea" v-if="loginWindow">
             <div class="loginModalArea">
@@ -28,7 +28,7 @@ export default {
         mainWindow: false,
         userData: {
             name: "",
-            profile: "",
+            profile: "/img/profile/profileNothing.png",
             grade: "",
             item: {},
             chartData: {
