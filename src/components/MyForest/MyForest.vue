@@ -39,12 +39,6 @@ export default {
     mounted() {
         this.mapInit(this.userItem);
     },
-    computed: {
-        mapChange() {
-            this.mapInit(this.userItem);
-            return 0;
-        }
-    },
     methods: {
         nameURL(itemLocation) {
             let urlName;
@@ -83,6 +77,7 @@ export default {
             axios.post('./php/itemChange.php', { "selectedItem": selectedItem, "location": this.selectedLocation })
                 .then(response => {
                     this.$emit('itemChange', response.data.item);
+                    this.mapInit(response.data.item);
                 })
         },
         mapInit(userItem) {
@@ -110,8 +105,8 @@ export default {
         destroy() {
             axios.post('./php/destroy.php')
                 .then(response => {
-                    console.log(response.data);
-                    this.$emit('itemChange', response.data);
+                    this.$emit('itemChange', response.data.item);
+                    this.mapInit(response.data.item);
                 })
         }
     }
