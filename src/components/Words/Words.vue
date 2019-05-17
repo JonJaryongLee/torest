@@ -8,7 +8,7 @@
             <p class="display-2">{{wordName}}</p>
             <p>{{wordPrononciation}}</p>
             <p>{{wordMeaning}}</p>
-            <img class="wordImg" :src="wordImg" height="150" width="150">
+            <img class="wordImg" :src="wordImg" height="150" width="150" alt="error">
             <v-btn class="wordNextBtn" v-on:click="nextWord" color="success">next</v-btn>
         </div>
         <div class="wordTest" v-if="wordTestShow">
@@ -26,11 +26,11 @@
                         {{wordMeaningFromList}}
                     </div>
                     <div class="userAnswerBox">
-                        <input class="userAnswer" v-model="userAnswer[answerNum]" ref="userAnswer" type="text" v-bind:disabled="inputDisableFlag">
+                        <input class="userAnswer" v-model="userAnswer[answerNum]" ref="userAnswer" type="text" v-bind:disabl="inputDisableFlag">
                     </div>
                 </div>
                 <v-btn class="wordTestSubmitBtn" color="success" v-if="submitBtnShow" v-on:click="wordSubmit">submit</v-btn>
-                <v-btn class="keepDoingWordTestBtn" color="success" v-if="nextBtnShow" v-on:click="keepStudy">계속 단어 외우기</v-btn>
+                <v-btn class="keepDoingWordTestBtn" color="success" v-if="restartBtnShow" v-on:click="restart">계속 단어 외우기</v-btn>
             </div>
         </div>
     </div>
@@ -42,20 +42,22 @@ export default {
         wordRememberingIntroShow: true,
         wordRememberingShow: false,
         wordTestShow: false,
+        submitBtnShow: true,
+        restartBtnShow: false,
+        wordNameList: [],
         wordName: "",
-        wordPrononciation: "",
+        wordMeaningList: [],
         wordMeaning: "",
+        wordPrononciationList: [],
+        wordPrononciation: "",
+        wordImgList: [],
         wordImg: "",
         wordCounter: 0,
-        wordNameList: [],
-        wordMeaningList: [],
-        userAnswer: [],
-        inputDisableFlag: false,
-        record: 0,
-        submitBtnShow: true,
-        nextBtnShow: false,
+        totalWordNum: 10,
         rights: [],
-        wrongs: []
+        wrongs: [],
+        inputDisableFlag: false,
+        userAnswer: []
     }),
     methods: {
         wordRememberingStart() {
@@ -64,70 +66,75 @@ export default {
             this.loadWord();
         },
         loadWord() {
-            axios.get('/php/words.php') // 추후 수정
-                .then(response => {
-                    this.wordName = response.data[this.wordCounter].wordName;
-                    this.wordPrononciation = response.data[this.wordCounter].wordPrononciation;
-                    this.wordMeaning = response.data[this.wordCounter].wordMeaning;
-                    this.wordImg = response.data[this.wordCounter].wordImg;
-                });
-        },
-        loadAllWords() {
-            axios.get('/php/words.php') // 추후 수정
+            axios.get('/php/words.php')
                 .then(response => {
                     for (let i = 0; i < response.data.length; i++) {
                         this.wordNameList.push(response.data[i].wordName);
-                        this.wordMeaningList.push(response.data[i].wordMeaning);
+                        this.wordMeaningList.push(response.data[i].wordMeaning)
+                        this.wordPrononciationList.push(response.data[i].wordPrononciation);
+                        this.wordImgList.push(response.data[i].wordImg);
+                        if (i == 0) {
+                            this.wordName = this.wordNameList[0];
+                            this.wordMeaning = this.wordMeaningList[0];
+                            this.wordPrononciation = this.wordPrononciationList[0];
+                            this.wordImg = this.wordImgList[0];
+                        }
                     }
                 })
         },
         nextWord() {
             this.wordCounter++;
-
-            //10개의 단어를 보면 시험을 실시합니다.
-            if (this.wordCounter == 10) {
+            if (this.wordCounter == this.totalWordNum) {
                 this.wordRememberingShow = false;
                 this.wordTestShow = true;
-                this.wordTest();
+                this.wordTestTest();
+            } else {
+                this.wordName = this.wordNameList[this.wordCounter];
+                this.wordMeaning = this.wordMeaningList[this.wordCounter];
+                this.wordPrononciation = this.wordPrononciationList[this.wordCounter];
+                this.wordImg = this.wordImgList[this.wordCounter];
             }
-            this.loadWord();
         },
-        wordTest() {
-            this.loadAllWords();
+        wordTestTest() {
             console.log(this.wordNameList);
         },
         wordSubmit() {
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < this.totalWordNum; i++) {
                 if (this.userAnswer[i] != this.wordNameList[i]) {
                     this.wrongs[i] = true;
                     this.userAnswer[i] = this.wordNameList[i];
                     this.$refs.userAnswer[i].style.color = "red";
                 } else {
-                    this.rights[i] = true;
-                    this.record++; // 하나 맞출때마다 점수가 올라갑니다.
+                    this.rights[i] = true
                 }
             }
             this.inputDisableFlag = true;
             this.submitBtnShow = false;
-            this.nextBtnShow = true;
-            //this.record를 상위컴포넌트로 보내는 코드를 추가해야 합니다!!
+            this.restartBtnShow = true;
         },
-        keepStudy() {
+        restart() {
             this.resetAllData();
-            this.wordTestShow = false;
-            this.wordRememberingIntroShow = true;
         },
         resetAllData() {
-            this.wordCounter = 0;
-            this.wordNameList = [];
-            this.wordMeaningList = [];
-            this.userAnswer = [];
-            this.record = 0;
+            this.wordRememberingShow = false;
+            this.wordTestShow = false;
+            this.wordRememberingIntroShow = true;
             this.submitBtnShow = true;
-            this.nextBtnShow = false;
-            this.inputDisableFlag = false;
+            this.restartBtnShow = false;
+            this.wordNameList = [];
+            this.wordName = "";
+            this.wordMeaningList = [];
+            this.wordMeaning = "";
+            this.wordPrononciationList = [];
+            this.wordPrononciation = "";
+            this.wordImgList = [];
+            this.wordImg = "";
+            this.wordCounter = 0;
+            this.totalWordNum = 10;
             this.rights = [];
             this.wrongs = [];
+            this.inputDisableFlag = false;
+            this.userAnswer = []
         }
     }
 }

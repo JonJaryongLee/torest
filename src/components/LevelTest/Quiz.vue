@@ -168,6 +168,10 @@ export default {
     color: #00C853;
 }
 
+.questionBox{
+    width:1080px;
+}
+
 .questionAndAnswer {
     position: relative;
     padding: 100px;

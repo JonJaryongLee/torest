@@ -1,6 +1,6 @@
 <template>
     <v-app id="inspire">
-        <!--                 <v-btn v-on:click="levelTestTest" v-if="levelTestTestBtnShow">go level test</v-btn> -->
+<!--         <v-btn v-on:click="levelTestTest" v-if="levelTestTestBtnShow">go level test</v-btn> -->
         <mainContents v-if="mainWindow" v-bind:userData="userData"></mainContents>
         <div class="loginArea" v-if="loginWindow">
             <div class="loginModalArea">
@@ -38,12 +38,11 @@ export default {
             }
         },
         levelTestShow: false,
-        // levelTestTestBtnShow:true
+        // levelTestTestBtnShow: true
     }),
     methods: {
         loginSuccess(userData) {
             if (userData == "admin") {
-                console.log("app.vue login User Data:", userData);
                 this.loginWindow = false;
                 setTimeout(() => this.mainWindow = true, 1000);
             } else {
@@ -53,7 +52,6 @@ export default {
             }
         },
         signUpSuccess(userData) {
-            console.log("app.vue signUp User Data", userData);
             this.loginWindow = false;
             this.userData = userData;
             this.startLevelTest();
@@ -62,7 +60,7 @@ export default {
             this.loginWindow = false;
             this.levelTestShow = true;
         },
-        // levelTestTest(){
+        // levelTestTest() {
         //     this.levelTestTestBtnShow = false;
         //     this.loginWindow = false;
         //     this.levelTestShow = true;

@@ -10,7 +10,7 @@
                         <v-flex xs12>
                             <v-form v-model="valid">
                                 <v-text-field v-model="id" label="ID" :rules="[idRules.required, idRules.min]" counter></v-text-field>
-                                <v-text-field v-model="password" type='password' :rules="[pwRules.required, pwRules.min]" name="input-10-1" label="Pass Word" counter></v-text-field>
+                                <v-text-field v-model="pw" type='password' :rules="[pwRules.required, pwRules.min]" name="input-10-1" label="Pass Word" counter></v-text-field>
                             </v-form>
                         </v-flex>
                     </v-layout>
@@ -31,7 +31,7 @@ export default {
     data: () => ({
         valid: false,
         id: '',
-        password: '',
+        pw: '',
         idRules: {
             required: value => !!value || '아이디가 필요합니다.',
             min: v => v.length >= 3 || '최소 3자 이상이 필요합니다.'
@@ -49,7 +49,6 @@ export default {
             if (this.valid == true) {
                 axios.post('./php/signUp.php', { "id": this.id, "pw": this.pw })
                     .then(response => {
-                        console.log("reveived Data at SignUpModal.vue:", response.data);
                         this.$emit('succeedSignUp', response.data);
                     })
                     .catch(error => {

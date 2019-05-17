@@ -7,7 +7,7 @@
             <template v-slot:activator="{ on }">
                 <div class="mapContainer">
                     <div class="mapParentItem" v-for="n in 3" :key="n" ref="mapParentItem">
-                        <div class="mapChildItem" v-for="m in 3" :key="m" ref="mapChildItem" v-on="on" v-on:click="setSelectedLocation(m,n)">
+                        <div class="mapChildItem" v-for="m in 3" :key="m" ref="mapChildItem" v-on="on" v-on:click="setSelectedLocation(m,n)" v-on:contextmenu.prevent="goToList(m,n)">
                             <div class="imgOfMap">
                                 <img ref="mapImg" v-bind:src="locationURL[locationCheck(m,n)]" v-if="locationURL" alt="errer" height=60>
                             </div>
@@ -105,6 +105,14 @@ export default {
         unFire() {
             axios.post('./php/unFire.php')
                 .then(response => {
+                    this.$emit('itemChange', response.data);
+                    this.mapInit(response.data);
+                })
+        },
+        goToList(m,n){
+            this.selectedLocation = this.locationCheck(m,n);
+            axios.post('./php/woodToList.php',{"location": this.selectedLocation})
+                .then(response=>{
                     this.$emit('itemChange', response.data);
                     this.mapInit(response.data);
                 })
