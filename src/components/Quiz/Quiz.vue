@@ -22,12 +22,18 @@
                     <v-btn outline v-on:click="answerCheck('D')" v-bind:disabled="done">{{choice3}}</v-btn>
                 </div>
             </div>
+            <div class="solutionArea" v-if="wrongAnswerFlag">
+                {{solution}}
+            </div>
             <div class="answerAlertArea">
                 <v-alert :value="rightAnswerFlag" type="success" transition="scale-transition">
                     정답입니다.
                 </v-alert>
                 <v-alert :value="wrongAnswerFlag" type="error" transition="scale-transition">
-                    틀렸습니다.
+                    틀렸습니다. 
+                    <div class="nextBtnArea">
+                        <v-btn v-on:click="goNextOrShowResult">다음</v-btn>
+                    </div>
                 </v-alert>
             </div>
         </div>
@@ -53,6 +59,7 @@ export default {
             choice1: "",
             choice2: "",
             choice3: "",
+            solution: "",
             answerNum: 0,
             quizCounter: 0,
             rightAnswerFlag: false,
@@ -87,7 +94,7 @@ export default {
                     this.choice1 = response.data[0].choice1;
                     this.choice2 = response.data[0].choice2;
                     this.choice3 = response.data[0].choice3;
-                    console.log("해설은 다음과 같다.",response.data[0].solution);
+                    this.solution = response.data[0].solution;
                     console.log(this.answerNum);
                 });
         },
@@ -98,8 +105,21 @@ export default {
                 this.wrongAnswerFlag = true;
             }
             this.done = true;
-            this.goNextOrShowResult();
             clearInterval(this.interval);
+            if (this.rightAnswerFlag) {
+                if (this.allQuestionsNumber != (this.quizCounter + 1)) {
+                    setTimeout(() => this.toNext(), 1000);
+                } else {
+                    setTimeout(() => this.showResultPage(), 1500);
+                }
+            }
+        },
+        goNextOrShowResult() {
+            if (this.allQuestionsNumber != (this.quizCounter + 1)) {
+                this.toNext();
+            } else {
+                this.showResultPage();
+            }
         },
         toNext() {
             this.done = false,
@@ -107,13 +127,6 @@ export default {
                 this.wrongAnswerFlag = false,
                 this.quizCounter++;
             this.loadQuiz();
-        },
-        goNextOrShowResult() {
-            if (this.allQuestionsNumber != (this.quizCounter + 1)) {
-                setTimeout(() => this.toNext(), 1000);
-            } else {
-                setTimeout(() => this.showResultPage(), 1500);
-            }
         },
         showResultPage() {
             this.quizShow = false;
@@ -152,6 +165,29 @@ export default {
 
 .answerBox {
     margin-top: 60px;
+}
+
+.solutionArea{
+    position: relative;
+    bottom:60px;
+    border: 1px solid black;
+    padding: 20px;
+    margin-left: 100px;
+    height: 100px;
+    width: 1080px;
+}
+
+.answerAlertArea{
+    position: relative;
+    margin-left:100px;
+    margin-right:55px;
+    top:-60px;
+}
+
+.nextBtnArea{
+    position: absolute;
+    top:0px;
+    left:980px;
 }
 
 .timer {
