@@ -36,7 +36,7 @@ export default {
                 axios.post('./php/setName.php', { "name": this.uploadUserName })
                     .then(response => {
                         if(response.data == "success"){
-                            this.$emit('successNameSet', this.uploadUserName);
+                            this.$emit('successNameSet');
                         } else {
                             alert("알 수 없는 오류 발생");
                         }

@@ -68,9 +68,10 @@ export default {
             rightAnswerFlag: false,
             wrongAnswerFlag: false,
             done: false,
-            totalScore: 785,
+            totalScore: 0,
             resultShow: false,
-            nameSetShow: false
+            nameSetShow: false,
+            userGrade: ""
         }
     },
     methods: {
@@ -103,6 +104,19 @@ export default {
         answerCheck(userChoicedAnswer) {
             if (userChoicedAnswer == this.answerNum) {
                 this.rightAnswerFlag = true;
+                if (this.timerValue > 80) {
+                    this.totalScore += 99;
+                    console.log(this.totalScore);
+                } else if (this.timerValue > 60) {
+                    this.totalScore += parseInt(99 * 0.7);
+                    console.log(this.totalScore);
+                } else if (this.timerValue > 40) {
+                    this.totalScore += parseInt(99 * 0.5);
+                    console.log(this.totalScore);
+                } else {
+                    this.totalScore += parseInt(99 * 0.2);
+                    console.log(this.totalScore);
+                }
             } else {
                 this.wrongAnswerFlag = true;
             }
@@ -111,10 +125,10 @@ export default {
             clearInterval(this.interval);
         },
         toNext() {
-            this.done = false,
-                this.rightAnswerFlag = false,
-                this.wrongAnswerFlag = false,
-                this.quizCounter++;
+            this.done = false;
+            this.rightAnswerFlag = false;
+            this.wrongAnswerFlag = false;
+            this.quizCounter++;
             this.loadQuiz();
         },
         goNextOrShowResult() {
@@ -125,6 +139,20 @@ export default {
             }
         },
         showResultPage() {
+            if (this.totalScore > 800) {
+                this.userGrade = "상";
+                console.log(this.userGrade);
+            } else if (this.totalScore > 600) {
+                this.userGrade = "중";
+                console.log(this.userGrade);
+            } else {
+                this.userGrade = "하";
+                console.log(this.userGrade);
+            }
+            axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": this.userGrade })
+                .then(response => {
+                    console.log(response.data);
+                });
             this.quizShow = false;
             this.resultShow = true;
             this.allDataReset();
@@ -148,8 +176,8 @@ export default {
         closeNameSet() {
             this.nameSetShow = false;
         },
-        successNameSet(userName) {
-            this.$emit('successNameSet', userName, this.totalScore);
+        successNameSet() {
+            this.$emit('successNameSet');
         }
     }
 }
@@ -168,8 +196,8 @@ export default {
     color: #00C853;
 }
 
-.questionBox{
-    width:1080px;
+.questionBox {
+    width: 1080px;
 }
 
 .questionAndAnswer {

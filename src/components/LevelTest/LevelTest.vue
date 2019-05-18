@@ -24,8 +24,8 @@ export default {
             this.levelTestMainShow = false;
             this.quizShow = true;
         },
-        successNameSet(userName, userScore) {
-            this.$emit('successNameSet', userName, userScore);
+        successNameSet() {
+            this.$emit('successNameSet');
         }
     }
 }

@@ -111,6 +111,7 @@ export default {
             this.inputDisableFlag = true;
             this.submitBtnShow = false;
             this.restartBtnShow = true;
+            this.$emit('upgradeMyForest');
         },
         restart() {
             this.resetAllData();

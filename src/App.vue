@@ -11,6 +11,7 @@
     </v-app>
 </template>
 <script>
+import axios from 'axios'
 import login from './components/UserLoginout/Login.vue'
 import mainContents from './components/Main.vue'
 import levelTest from './components/LevelTest/LevelTest.vue'
@@ -26,18 +27,8 @@ export default {
     data: () => ({
         loginWindow: false,
         mainWindow: false,
-        userData: {
-            name: "",
-            profile: "/img/profile/profileNothing.png",
-            grade: "",
-            item: {},
-            chartData: {
-                날짜: "",
-                점수: "",
-                newUser: true
-            }
-        },
         levelTestShow: false,
+        userData: {}
         // levelTestTestBtnShow: true
     }),
     methods: {
@@ -65,14 +56,14 @@ export default {
         //     this.loginWindow = false;
         //     this.levelTestShow = true;
         // },
-        successNameSet(userName, userScore) {
-            let today = new Date();
+        successNameSet() {
             this.levelTestShow = false;
             this.loginWindow = false;
-            this.userData.name = userName;
-            this.userData.chartData.날짜 = today;
-            this.userData.chartData.점수 = userScore;
-            setTimeout(() => this.mainWindow = true, 1000);
+            axios.get('/php/userData.php')
+                .then(response=>{
+                    this.userData = response.data;
+                    setTimeout(() => this.mainWindow = true, 1000);
+                })
         }
     }
 }

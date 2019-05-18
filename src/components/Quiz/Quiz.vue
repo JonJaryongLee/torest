@@ -30,7 +30,7 @@
                     정답입니다.
                 </v-alert>
                 <v-alert :value="wrongAnswerFlag" type="error" transition="scale-transition">
-                    틀렸습니다. 
+                    틀렸습니다.
                     <div class="nextBtnArea">
                         <v-btn v-on:click="goNextOrShowResult">다음</v-btn>
                     </div>
@@ -46,6 +46,7 @@
 <script>
 import axios from 'axios'
 export default {
+    props: ['userGrade'],
     data() {
         return {
             allQuestionsNumber: 10,
@@ -65,8 +66,25 @@ export default {
             rightAnswerFlag: false,
             wrongAnswerFlag: false,
             done: false,
-            totalScore: 785,
-            resultShow: false
+            totalScore: 0,
+            onePoint: 0,
+            resultShow: false,
+            rightCounter: 0
+        }
+    },
+    created() {
+        if (this.userGrade == "상") {
+            this.totalScore = 800;
+            this.onePoint = 19;
+            console.log(this.totalScore, this.onePoint);
+        } else if (this.userGrade == "중") {
+            this.totalScore = 600;
+            this.onePoint = 20;
+            console.log(this.totalScore, this.onePoint);
+        } else {
+            this.totalScore = 0;
+            this.onePoint = 60;
+            console.log(this.totalScore, this.onePoint);
         }
     },
     methods: {
@@ -101,6 +119,20 @@ export default {
         answerCheck(userChoicedAnswer) {
             if (userChoicedAnswer == this.answerNum) {
                 this.rightAnswerFlag = true;
+                this.rightCounter++;
+                if (this.timerValue > 80) {
+                    this.totalScore += this.onePoint;
+                    console.log(this.totalScore);
+                } else if (this.timerValue > 60) {
+                    this.totalScore += parseInt(this.onePoint * 0.7);
+                    console.log(this.totalScore);
+                } else if (this.timerValue > 40) {
+                    this.totalScore += parseInt(this.onePoint * 0.5);
+                    console.log(this.totalScore);
+                } else {
+                    this.totalScore += parseInt(this.onePoint * 0.2);
+                    console.log(this.totalScore);
+                }
             } else {
                 this.wrongAnswerFlag = true;
             }
@@ -122,16 +154,29 @@ export default {
             }
         },
         toNext() {
-            this.done = false,
-                this.rightAnswerFlag = false,
-                this.wrongAnswerFlag = false,
-                this.quizCounter++;
+            this.done = false;
+            this.rightAnswerFlag = false;
+            this.wrongAnswerFlag = false;
+            this.quizCounter++;
             this.loadQuiz();
         },
         showResultPage() {
+            if (this.rightCounter == this.allQuestionsNumber) {
+                if (this.userGrade == "중") {
+                    axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": "상" })
+                        .then(response => {
+                            console.log(response.data);
+                        });
+                } else if (this.userGrade == "하")
+                    axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": "중" })
+                    .then(response => {
+                        console.log(response.data);
+                    });
+            }
             this.quizShow = false;
             this.resultShow = true;
             this.allDataReset();
+            this.$emit('upgradeMyForest');
         },
         allDataReset() {
             this.questionFront = "";
@@ -145,6 +190,10 @@ export default {
             this.rightAnswerFlag = false;
             this.wrongAnswerFlag = false;
             this.done = false;
+            this.rightCounter = 0;
+            this.onePoint = 0;
+            this.totalScore = 0;
+            this.solution = "";
         }
     }
 }
@@ -167,9 +216,9 @@ export default {
     margin-top: 60px;
 }
 
-.solutionArea{
+.solutionArea {
     position: relative;
-    bottom:60px;
+    bottom: 60px;
     border: 1px solid black;
     padding: 20px;
     margin-left: 100px;
@@ -177,17 +226,17 @@ export default {
     width: 1080px;
 }
 
-.answerAlertArea{
+.answerAlertArea {
     position: relative;
-    margin-left:100px;
-    margin-right:55px;
-    top:-60px;
+    margin-left: 100px;
+    margin-right: 55px;
+    top: -60px;
 }
 
-.nextBtnArea{
+.nextBtnArea {
     position: absolute;
-    top:0px;
-    left:980px;
+    top: 0px;
+    left: 980px;
 }
 
 .timer {

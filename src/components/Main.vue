@@ -38,14 +38,6 @@
                         <v-list-tile-title>통계</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-                <v-list-tile @click="settings">
-                    <v-list-tile-action>
-                        <v-icon>settings</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>설정</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
                 <v-list-tile color="red" @click="logout">
                     <v-list-tile-action>
                         <v-icon color="red">undo</v-icon>
@@ -63,16 +55,12 @@
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
-
             <!-- 유저체인지에서 유저 이름 대신 아이디로 써주세요. -->
-
             <div class="userChangeBtnContainer">
                 <v-btn v-on:click="userChange('jony8112')">jony</v-btn>
                 <v-btn v-on:click="userChange('sujin11')">sophie</v-btn>
             </div>
         </v-navigation-drawer>
-        <!-- 설정창 -->
-        <settings v-if="settingsShow" v-bind:SettingsModalOpen="settingsShow" v-on:closeSettingsModal="closeSettingsModal"></settings>
         <!-- 로그아웃창 -->
         <logoutDialog v-if="logoutShow" v-bind:propsdata="logoutShow" v-on:closeLogoutModal="closeLogoutModal"></logoutDialog>
         <v-toolbar color="green accent-2" dark fixed app>
@@ -83,9 +71,9 @@
             <!-- 나의 숲 -->
             <myForest v-if="myForestShow" v-bind:userItem="userItem" v-on:itemChange="itemChange"></myForest>
             <!-- 단어 암기 -->
-            <words v-if="wordsShow"></words>
+            <words v-if="wordsShow" v-on:upgradeMyForest="upgradeMyForest"></words>
             <!-- 토익문제풀기 -->
-            <quiz v-if="quizShow"></quiz>
+            <quiz v-if="quizShow" v-bind:userGrade="userGrade" v-on:upgradeMyForest="upgradeMyForest"></quiz>
             <!-- 차트 -->
             <chart v-if="chartShow" v-bind:userChart="userChart"></chart>
             <!-- ppt -->
@@ -99,7 +87,6 @@
 <script>
 import axios from 'axios'
 import logoutDialog from './UserLoginout/Logout.vue'
-import settings from './Settings/Settings.vue'
 import chart from './Chart/Chart.vue'
 import quiz from './Quiz/Quiz.vue'
 import myForest from './MyForest/MyForest.vue'
@@ -117,13 +104,11 @@ export default {
         quizShow: false,
         chartShow: false,
         logoutShow: false,
-        settingsShow: false,
         presentationShow: true,
         selectedMode: "PPT"
     }),
     components: {
         'logoutDialog': logoutDialog,
-        'settings': settings,
         'chart': chart,
         'quiz': quiz,
         'myForest': myForest,
@@ -172,14 +157,8 @@ export default {
             this.chartShow = true;
             this.selectedMode = "통계";
         },
-        settings() {
-            this.settingsShow = true;
-        },
         closeLogoutModal() {
             this.logoutShow = false;
-        },
-        closeSettingsModal() {
-            this.settingsShow = false;
         },
         presentation() {
             this.shutdown();
@@ -203,6 +182,12 @@ export default {
                         alert("유저변경 실패!");
                     }
                 });
+        },
+        upgradeMyForest(){
+            axios.post('./php/upgradeMyForest.php')
+                .then(response=>{
+                    console.log(response.data);
+                })
         }
     }
 }
