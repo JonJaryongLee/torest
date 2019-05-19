@@ -109,10 +109,10 @@ export default {
                     this.mapInit(response.data);
                 })
         },
-        goToList(m,n){
-            this.selectedLocation = this.locationCheck(m,n);
-            axios.post('./php/woodToList.php',{"location": this.selectedLocation})
-                .then(response=>{
+        goToList(m, n) {
+            this.selectedLocation = this.locationCheck(m, n);
+            axios.post('./php/woodToList.php', { "location": this.selectedLocation })
+                .then(response => {
                     this.$emit('itemChange', response.data.item);
                     this.mapInit(response.data.item);
                 })

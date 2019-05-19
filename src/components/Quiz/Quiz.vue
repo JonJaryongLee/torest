@@ -39,7 +39,7 @@
         </div>
         <div class="resultPage display-1" v-if="resultShow">
             당신의 예상점수는 {{totalScore}}점입니다.
-            <v-btn class="retryBtn" color="success" v-on:click="runQuiz">다시 하기</v-btn>
+            <v-btn class="retryBtn" color="success" v-on:click="retry">다시 하기</v-btn>
         </div>
     </div>
 </template>
@@ -76,15 +76,12 @@ export default {
         if (this.userGrade == "상") {
             this.totalScore = 800;
             this.onePoint = 19;
-            console.log(this.totalScore, this.onePoint);
         } else if (this.userGrade == "중") {
             this.totalScore = 600;
             this.onePoint = 20;
-            console.log(this.totalScore, this.onePoint);
         } else {
             this.totalScore = 0;
             this.onePoint = 60;
-            console.log(this.totalScore, this.onePoint);
         }
     },
     methods: {
@@ -92,6 +89,22 @@ export default {
             this.infoShow = false;
             this.quizShow = true;
             this.loadQuiz();
+        },
+        retry() {
+            this.infoShow = false;
+            this.quizShow = true;
+            this.loadQuiz();
+            this.allDataReset();
+            if (this.userGrade == "상") {
+                this.totalScore = 800;
+                this.onePoint = 19;
+            } else if (this.userGrade == "중") {
+                this.totalScore = 600;
+                this.onePoint = 20;
+            } else {
+                this.totalScore = 0;
+                this.onePoint = 60;
+            }
         },
         timerReset() {
             this.timerValue = 100;
@@ -120,18 +133,14 @@ export default {
             if (userChoicedAnswer == this.answerNum) {
                 this.rightAnswerFlag = true;
                 this.rightCounter++;
-                if (this.timerValue > 80) {
+                if (this.timerValue > 70) {
                     this.totalScore += this.onePoint;
-                    console.log(this.totalScore);
-                } else if (this.timerValue > 60) {
+                } else if (this.timerValue > 50) {
                     this.totalScore += parseInt(this.onePoint * 0.7);
-                    console.log(this.totalScore);
-                } else if (this.timerValue > 40) {
+                } else if (this.timerValue > 30) {
                     this.totalScore += parseInt(this.onePoint * 0.5);
-                    console.log(this.totalScore);
                 } else {
                     this.totalScore += parseInt(this.onePoint * 0.2);
-                    console.log(this.totalScore);
                 }
             } else {
                 this.wrongAnswerFlag = true;
@@ -161,21 +170,19 @@ export default {
             this.loadQuiz();
         },
         showResultPage() {
-            if (this.rightCounter == this.allQuestionsNumber) {
+            this.quizCounter++;
+            if (this.quizCounter == this.allQuestionsNumber) {
                 if (this.userGrade == "중") {
-                    axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": "상" })
-                        .then(response => {
-                            console.log(response.data);
-                        });
+                    axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": "상" });
                 } else if (this.userGrade == "하")
-                    axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": "중" })
-                    .then(response => {
-                        console.log(response.data);
-                    });
+                    axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": "중" });
+                else {
+                    axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": this.userGrade });
+                }
             }
             this.quizShow = false;
             this.resultShow = true;
-            this.allDataReset();
+            this.$emit('initUserData');
             this.$emit('upgradeMyForest');
         },
         allDataReset() {

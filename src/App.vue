@@ -1,7 +1,6 @@
 <template>
     <v-app id="inspire">
-<!--         <v-btn v-on:click="levelTestTest" v-if="levelTestTestBtnShow">go level test</v-btn> -->
-        <mainContents v-if="mainWindow" v-bind:userData="userData"></mainContents>
+        <mainContents v-if="mainWindow" v-bind:userData="userData" v-on:initUserData="initUserData"></mainContents>
         <div class="loginArea" v-if="loginWindow">
             <div class="loginModalArea">
                 <login v-on:loginSuccess="loginSuccess" v-on:signUpSuccess="signUpSuccess"></login>
@@ -29,7 +28,6 @@ export default {
         mainWindow: false,
         levelTestShow: false,
         userData: {}
-        // levelTestTestBtnShow: true
     }),
     methods: {
         loginSuccess(userData) {
@@ -51,19 +49,23 @@ export default {
             this.loginWindow = false;
             this.levelTestShow = true;
         },
-        // levelTestTest() {
-        //     this.levelTestTestBtnShow = false;
-        //     this.loginWindow = false;
-        //     this.levelTestShow = true;
-        // },
         successNameSet() {
             this.levelTestShow = false;
             this.loginWindow = false;
             axios.get('/php/userData.php')
-                .then(response=>{
+                .then(response => {
                     this.userData = response.data;
                     setTimeout(() => this.mainWindow = true, 1000);
-                })
+                });
+        },
+        initUserData(){
+            axios.get('/php/userData.php')
+                .then(response=>{
+                    console.log("userData.php실행");
+                    this.userData = response.data;
+                    console.log(response.data.chartData);
+                    console.log(this.userData.chartData);
+                });
         }
     }
 }

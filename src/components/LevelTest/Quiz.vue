@@ -52,7 +52,7 @@ export default {
     },
     data() {
         return {
-            allQuestionsNumber: 1,
+            allQuestionsNumber: 10,
             interval: {},
             timerValue: 100,
             infoShow: true,
@@ -90,7 +90,7 @@ export default {
         },
         loadQuiz() {
             this.timerReset();
-            axios.get('/php/random.php') // 추후 수정 
+            axios.get('/php/levelTest.php') // 추후 수정 
                 .then(response => {
                     this.questionFront = response.data[0].questionFront;
                     this.questionEnd = response.data[0].questionEnd;
@@ -99,23 +99,20 @@ export default {
                     this.choice1 = response.data[0].choice1;
                     this.choice2 = response.data[0].choice2;
                     this.choice3 = response.data[0].choice3;
+                    console.log(response.data[0].answerNum);
                 });
         },
         answerCheck(userChoicedAnswer) {
             if (userChoicedAnswer == this.answerNum) {
                 this.rightAnswerFlag = true;
-                if (this.timerValue > 80) {
+                if (this.timerValue > 70) {
                     this.totalScore += 99;
-                    console.log(this.totalScore);
-                } else if (this.timerValue > 60) {
+                } else if (this.timerValue > 50) {
                     this.totalScore += parseInt(99 * 0.7);
-                    console.log(this.totalScore);
-                } else if (this.timerValue > 40) {
+                } else if (this.timerValue > 30) {
                     this.totalScore += parseInt(99 * 0.5);
-                    console.log(this.totalScore);
                 } else {
                     this.totalScore += parseInt(99 * 0.2);
-                    console.log(this.totalScore);
                 }
             } else {
                 this.wrongAnswerFlag = true;
@@ -141,18 +138,12 @@ export default {
         showResultPage() {
             if (this.totalScore > 800) {
                 this.userGrade = "상";
-                console.log(this.userGrade);
             } else if (this.totalScore > 600) {
                 this.userGrade = "중";
-                console.log(this.userGrade);
             } else {
                 this.userGrade = "하";
-                console.log(this.userGrade);
             }
-            axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": this.userGrade })
-                .then(response => {
-                    console.log(response.data);
-                });
+            axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": this.userGrade });
             this.quizShow = false;
             this.resultShow = true;
             this.allDataReset();

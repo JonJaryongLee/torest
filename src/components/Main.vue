@@ -58,7 +58,8 @@
             <!-- 유저체인지에서 유저 이름 대신 아이디로 써주세요. -->
             <div class="userChangeBtnContainer">
                 <v-btn v-on:click="userChange('jony8112')">jony</v-btn>
-                <v-btn v-on:click="userChange('sujin11')">sophie</v-btn>
+                <v-btn v-on:click="userChange('sujin11')">sujin</v-btn>
+                <v-btn v-on:click="userChange('torest')">토익의 숲</v-btn>
             </div>
         </v-navigation-drawer>
         <!-- 로그아웃창 -->
@@ -73,7 +74,7 @@
             <!-- 단어 암기 -->
             <words v-if="wordsShow" v-on:upgradeMyForest="upgradeMyForest"></words>
             <!-- 토익문제풀기 -->
-            <quiz v-if="quizShow" v-bind:userGrade="userGrade" v-on:upgradeMyForest="upgradeMyForest"></quiz>
+            <quiz v-if="quizShow" v-bind:userGrade="userGrade" v-on:upgradeMyForest="upgradeMyForest" v-on:initUserData="initUserData"></quiz>
             <!-- 차트 -->
             <chart v-if="chartShow" v-bind:userChart="userChart"></chart>
             <!-- ppt -->
@@ -183,11 +184,14 @@ export default {
                     }
                 });
         },
-        upgradeMyForest(){
+        upgradeMyForest() {
             axios.post('./php/upgradeMyForest.php')
-                .then(response=>{
-                    console.log(response.data);
+                .then(response => {
+                    this.userData = response.data.item;
                 })
+        },
+        initUserData(){
+            this.$emit('initUserData');
         }
     }
 }
