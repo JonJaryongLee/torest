@@ -1,0 +1,42 @@
+{
+    "name": "Sophie",
+    "img": "me/sophie.jpg",
+    "item":[
+        {
+            "itemNum": "i002",
+            "itemLocation": "lv2/tree10",
+            "itemName": "소나무",
+            "location": 8
+        },
+        {
+            "itemNum": "i001",
+            "itemLocation": "lv2/tree11",
+            "itemName": "복실복실나무",
+            "location": 4
+        },
+        {
+            "itemNum": "i000",
+            "itemLocation": "lv2/tree12",
+            "itemName": "귀여운나무",
+            "location": 1
+        },
+        {
+            "itemNum": "i001",
+            "itemLocation": "lv2/tree3",
+            "itemName": "사과나무",
+            "location": 0
+        },
+        {
+            "itemNum": "i000",
+            "itemLocation": "lv2/tree12",
+            "itemName": "귀여운나무",
+            "location": -1
+        },
+        {
+            "itemNum": "i002",
+            "itemLocation": "lv2/tree13",
+            "itemName": "친구나무",
+            "location": -1
+        }
+    ]
+}
