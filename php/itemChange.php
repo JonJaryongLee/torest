@@ -2,10 +2,10 @@
 
 session_start();
 header("Content-Type:application/json"); 
-// DB 접속  
+// DB 접속  1
 $host = 'localhost'; 
-    $user = 'torest';
-    $pw = 'team14torest';
+    $user = 'root';
+    $pw = '**uplus1214';
     $dbName = 'torest';
     $con = new mysqli($host, $user, $pw, $dbName);
     mysqli_set_charset($con,"utf8");

@@ -1,7 +1,7 @@
 <?php
 header("Content-Type:application/json");
 // DB 접속
-$con=mysqli_connect("localhost","torest","team14torest","torest");
+$con=mysqli_connect("localhost","root","**uplus1214","torest");
 // 접속 실패 시 메시지 나오게 하기
 if (mysqli_connect_errno($con))
 { echo "MySQL접속 실패: " . mysqli_connect_error(); }
