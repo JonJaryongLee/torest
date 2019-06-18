@@ -7,8 +7,8 @@ session_start();// 세션변수사용을 위함
 header("Content-Type:application/json");// json 사용하기위해 쓰는 코드
 // DB 접속  
     $host = 'localhost'; 
-    $user = 'torest';
-    $pw = 'team14torest';
+    $user = 'root';
+    $pw = '**uplus1214';
     $dbName = 'torest';
     $con = new mysqli($host, $user, $pw, $dbName);
 

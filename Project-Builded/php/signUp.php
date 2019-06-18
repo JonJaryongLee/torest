@@ -7,8 +7,8 @@ ini_set("display_errors", 1);
 session_start();
 header("Content-Type:application/json");
 $host = 'localhost';
-$user = 'torest';
-$pw = 'team14torest';
+$user = 'root';
+$pw = '**uplus1214';
 $dbName = 'torest';
 
 $con = new mysqli($host, $user, $pw, $dbName);
