@@ -127,3 +127,4 @@ json 양식으로 클라이언트로 보낸다.
 1. AWS서버 개설함. 주소 변경
 		http://13.125.77.56/
 2. phpMyAdmin은 로컬에서 터널로 접근할 것
+	http://localhost:8888/phpmyadmin/
