@@ -93,4 +93,6 @@ export default {
     position: relative;
     top: 200px;
 }
+
+
 </style>

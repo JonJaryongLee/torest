@@ -265,4 +265,5 @@ export default {
     top: 30px;
     left: 550px;
 }
+
 </style>

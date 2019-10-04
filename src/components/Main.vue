@@ -217,4 +217,6 @@ export default {
 .userChangeBtnContainer {
     padding: 40px;
 }
+
+
 </style>
