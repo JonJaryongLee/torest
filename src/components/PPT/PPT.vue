@@ -9,13 +9,13 @@
 export default {
     data() {
         return {
-            pageNum: 28, // ppt 페이지를 바꿔주세요
+            pageNum: 16, // ppt 페이지를 바꿔주세요
             imgSrc: []
         }
     },
     created() {
         for (let i = 1; i <= this.pageNum; i++) {
-            this.imgSrc.push("img/ppt/" + i + ".JPG");
+            this.imgSrc.push("img/ppt/슬라이드" + i + ".JPG");
         }
     }
 }
