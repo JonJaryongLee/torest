@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- 생성 시간: 19-10-03 22:54
+-- 생성 시간: 19-10-05 22:14
 -- 서버 버전: 5.7.25
 -- PHP 버전: 7.1.28
 
@@ -72,33 +72,24 @@ CREATE TABLE `manage` (
 --
 
 INSERT INTO `manage` (`ID`, `itemNum`, `location`) VALUES
-('sujin11', 'i001', 6),
-('sujin11', 'i003', 0),
-('sujin11', 'i004', 2),
-('sujin11', 'i006', 8),
-('sujin11', 'i007', 4),
-('sujin11', 'i011', 5),
-('sujin11', 'i012', 1),
-('sujin11', 'i013', 3),
-('sujin11', 'i013', 7),
-('torest', 'i001', 4),
-('torest', 'i004', 2),
-('torest', 'i004', 7),
-('torest', 'i006', 0),
-('torest', 'i007', 5),
-('torest', 'i008', 3),
-('torest', 'i009', 6),
-('torest', 'i009', 8),
-('torest', 'i010', 1),
-('짱정민', 'i002', 2),
-('짱정민', 'i003', 6),
-('짱정민', 'i005', 8),
-('짱정민', 'i007', 4),
-('짱정민', 'i010', 0),
-('짱정민', 'i010', 5),
-('짱정민', 'i012', 3),
-('짱정민', 'i013', 1),
-('짱정민', 'i013', 7);
+('jony8112', 'i000', 1),
+('jony8112', 'i003', 3),
+('jony8112', 'i004', 4),
+('jony8112', 'i005', 6),
+('jony8112', 'i005', 8),
+('jony8112', 'i006', 7),
+('jony8112', 'i011', 0),
+('jony8112', 'i013', 2),
+('jony8112', 'i013', 5),
+('sujin11', 'i001', 7),
+('sujin11', 'i004', 1),
+('sujin11', 'i009', 5),
+('sujin11', 'i009', 8),
+('sujin11', 'i010', 0),
+('sujin11', 'i010', 4),
+('sujin11', 'i011', 6),
+('sujin11', 'i012', 3),
+('sujin11', 'i013', 2);
 
 -- --------------------------------------------------------
 
@@ -197,12 +188,7 @@ INSERT INTO `test` (`ID`, `날짜`, `점수`, `idx`) VALUES
 ('sujin11', '2017-02-03', 425, 29),
 ('sujin11', '2018-07-23', 236, 30),
 ('sujin11', '2018-12-31', 523, 31),
-('sujin11', '2019-06-05', 60, 120),
-('torest', '2019-06-12', 120, 132),
-('짱정민', '2019-06-14', 155, 133),
-('sujin11', '2019-10-01', 180, 134),
-('ttttt11', '2019-10-02', 198, 135),
-('ttttt11', '2019-10-02', 420, 136);
+('sujin11', '2019-06-05', 60, 120);
 
 -- --------------------------------------------------------
 
@@ -226,11 +212,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `pw`, `name`, `프로필사진`, `포인트`, `마지막 문제풀이시간`, `숲 건강률`, `등급`) VALUES
-('12345', '123456789', NULL, './img/profile/profileNothing.png', NULL, NULL, NULL, NULL),
 ('jony8112', '1110', 'jony', './img/profile/jony.jpg', 576, '2019-04-02 10:16:38', 95, '상'),
-('sujin11', '2220', 'sujin', './img/profile/girl1.jpg', 845, '2019-04-10 14:40:16', 40, '중'),
-('ttttt11', 'rqweqeqeqweq', '테스티;ㅇ', './img/profile/profileNothing.png', NULL, NULL, NULL, '중'),
-('짱정민', 'WkdWkdaos', '짱정민', './img/profile/profileNothing.png', NULL, NULL, NULL, '하');
+('sujin11', '2220', 'sujin', './img/profile/sujin.jpg', 845, '2019-04-10 14:40:16', 40, '하');
 
 -- --------------------------------------------------------
 
@@ -298,37 +281,6 @@ INSERT INTO `word` (`번호`, `단어명`, `발음기호`, `뜻`, `단어수준`
 ('w0044', 'share', '[ʃέər]\r\n', '주식, 몫 ', '상', './img/word/w0044.jpg'),
 ('w0045', 'hazardous', '[-ərdəs]\r\n', '모험적인, 위험한 ', '상', './img/word/w0045.jpg');
 
--- --------------------------------------------------------
-
---
--- 테이블 구조 `연습`
---
-
-CREATE TABLE `연습` (
-  `문제번호` varchar(20) NOT NULL,
-  `문제 앞` varchar(100) DEFAULT NULL,
-  `답` varchar(10) NOT NULL,
-  `문제 뒤` varchar(200) DEFAULT NULL,
-  `난이도` varchar(10) NOT NULL,
-  `A` varchar(30) NOT NULL,
-  `B` varchar(30) NOT NULL,
-  `C` varchar(30) NOT NULL,
-  `D` varchar(30) NOT NULL,
-  `해석` varchar(200) NOT NULL,
-  `해설` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- 테이블의 덤프 데이터 `연습`
---
-
-INSERT INTO `연습` (`문제번호`, `문제 앞`, `답`, `문제 뒤`, `난이도`, `A`, `B`, `C`, `D`, `해석`, `해설`) VALUES
-('5q001', NULL, 'D', 'wishing to attend the company’s monthly luncheon should notify Oprah Winfry before Sep 3rd.	\r\n', '상', 'Fewer', 'Another', 'Whoever', 'Anyone', '회사의 월례 오찬에 참석하기를 희망하는 분들은 9월 3일 이전에 Oprah Winfry 씨에게 보고해야 한다.\r\n', '[대명사 어휘문제] 분사(wishing)나 who 바로 앞의 대명사문제는 anyone과 those 중에서 정답을 골라야 한다.	\r\n'),
-('5q002', 'The most important\r\n', 'C', 'in the hiring process are face-to-face interviews with applicants.	\r\n', '중', 'installments', 'products', 'stages', 'results', '채용 과정에서 가장 중요한 단계는 지원자들과의 일대일 인터뷰이다.		\r\n', '채용 과정에서 가장 중요한 단계는 지원자들과의 일대일 인터뷰이다.		\r\n'),
-('5q003', 'Micron Technology has persistently surpassed its\r\n', 'C', 'in sales volume and product quality.	\r\n', '중', 'competitive', 'competing', 'competitors', 'competitiveness	', 'Micron Technology는 그들의 판매량과 제품 품질에 있어서 회사의 경쟁업체들을 지속적으로 능가했다.\r\n', '[품사문제] 소유격(its)와 전치사(in) 사이는 명사(compeetitors)자리이다.	\r\n'),
-('5q004', 'To\r\n', 'D', 'the repair job on time, the engineer asked the carpenters and electricians to do overtime yesterday.	\r\n', '상', 'address', 'exalt', 'Though', 'accuracy', 'Jerry Cunningham은 파리 영화 페스티벌에서 Ms. Marina Fletcher와 함께 할 조사원과 조연출자들의 이름을 발표할 것이다.\r\n', '[동사 어휘 문제] \'Jerry Cunningham은 조사원과 조연출자들의 이름을 발표할 것이다.\'라는 의미가 되어야 자연스러우므로 빈칸에 적절한 동사는 (A) announce(발표하다)이다.	\r\n'),
-('5q005', 'The union leader plans to\r\n', 'C', 'his remarks on work safety problems to the management during the meeting this afternoon.	\r\n', '중', 'In order', 'So that', 'supervision', 'command', '그 소설에 대한 모든 부정적인 평론으로 보아, 작가의 의도가 문학 비평가들에 의해 제대로 이해되지 않았던 것 같습니다.\r\n', '[태에 맞는 동사 채우기 문제] 주어 (the author\'s message)와 동사 (misinterpret)가 \'작가의 의도가 이해되다\'라는 수동의 의미관계이므로 be동사(was) 다음에 와서 수동태 동사를 만드는 (D) minsinterpreted가 정답이다.	\r\n');
-
 --
 -- 덤프된 테이블의 인덱스
 --
@@ -377,7 +329,7 @@ ALTER TABLE `word`
 -- 테이블의 AUTO_INCREMENT `test`
 --
 ALTER TABLE `test`
-  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `idx` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
