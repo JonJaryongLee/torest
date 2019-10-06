@@ -41,6 +41,23 @@
             당신의 예상점수는 {{totalScore}}점입니다.
             <v-btn class="retryBtn" color="success" v-on:click="retry">다시 하기</v-btn>
         </div>
+        <v-dialog v-model="levelUpDialogShow" width="500">
+            <v-card>
+                <v-card-title class="headline grey lighten-2" primary-title>
+                    Level Up!
+                </v-card-title>
+                <v-card-text>
+                    축하합니다. 이제 더 어려운 문제와 단어가 제공됩니다.
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" flat @click="levelUpDialogShow = false">
+                        확인
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 <script>
@@ -69,7 +86,8 @@ export default {
             totalScore: 0,
             onePoint: 0,
             resultShow: false,
-            rightCounter: 0
+            rightCounter: 0,
+            levelUpDialogShow: false
         }
     },
     created() {
@@ -179,6 +197,7 @@ export default {
                 else {
                     axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": this.userGrade });
                 }
+                this.levelUpDialogShow = true;
             }
             this.quizShow = false;
             this.resultShow = true;
@@ -265,5 +284,4 @@ export default {
     top: 30px;
     left: 550px;
 }
-
 </style>
