@@ -190,14 +190,21 @@ export default {
         showResultPage() {
             this.quizCounter++;
             if (this.quizCounter == this.allQuestionsNumber) {
-                if (this.userGrade == "중") {
-                    axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": "상" });
-                } else if (this.userGrade == "하")
-                    axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": "중" });
-                else {
+                if(this.rightCounter == this.allQuestionsNumber){
+                    if (this.userGrade == "중") {
+                        axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": "상" });
+                        this.levelUpDialogShow = true;
+                    } else if (this.userGrade == "하"){
+                        axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": "중" });
+                        this.levelUpDialogShow = true;
+                    }
+                    else {
+                        axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": this.userGrade });
+                    }
+                }
+                else{
                     axios.post('/php/todayScoreUpdate.php', { "score": this.totalScore, "userGrade": this.userGrade });
                 }
-                this.levelUpDialogShow = true;
             }
             this.quizShow = false;
             this.resultShow = true;
