@@ -51,7 +51,7 @@
                         <v-icon color="blue">record_voice_over</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>발표 PPT</v-list-tile-title>
+                        <v-list-tile-title>앱 설명서</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
@@ -59,7 +59,6 @@
             <div class="userChangeBtnContainer">
                 <v-btn v-on:click="userChange('jony8112')">jony</v-btn>
                 <v-btn v-on:click="userChange('sujin11')">sujin</v-btn>
-                <v-btn v-on:click="userChange('torest')">토익의 숲</v-btn>
             </div>
         </v-navigation-drawer>
         <!-- 로그아웃창 -->

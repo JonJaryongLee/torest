@@ -21,9 +21,6 @@
                 </v-list-tile>
             </v-list>
         </v-menu>
-        <div class="unFireBtn">
-            <v-btn color="error" v-on:click="unFire">unFire</v-btn>
-        </div>
     </div>
 </template>
 <script>

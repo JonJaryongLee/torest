@@ -9,7 +9,7 @@
 export default {
     data() {
         return {
-            pageNum: 13, // ppt 페이지를 바꿔주세요
+            pageNum: 6, // ppt 페이지를 바꿔주세요
             imgSrc: []
         }
     },
